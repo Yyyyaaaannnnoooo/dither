@@ -1,6 +1,7 @@
 var source, big;
 var scaleFactor = 10;
-var input, button, saveTxt;
+var kernCount = 0;
+var input, button, saveTxt, changeKernel;
 var kernels = [];
 var STEINBERG = [[0.0, 0.0, 0.0 ], [0.0, 0.0, 7.0], [3.0, 5.0, 1.0]]; //STEINBErg
 var LINEARRANDOM = [[0, 3.0, 0], [ 5.0, 0, 1.0], [0, 7.0, 0]];///linear 2
@@ -22,28 +23,49 @@ var COOL06 = [[7.0, 0.0, 7.0], [0.0, 6.0, 3.0], [0.0, 4.0, 6.0]];//14
 //0.0 | 0.0 | 0.6782781 | 0.0 | 0.0 | 3.9686522 | 6.8295755 | 3.8442783 | 2.198808 |//ADD IT!
 var CHRIS = [[0.0, 0.0, 1.0], [0.0, 0.0, 4.0], [7.0, 4.0, 2.0]];//15
 var STRUCTURE = [[1.0, 0, 0], [7.0, 0, 6.0], [0, 2.0, 0]];///really nice structure
+kernels.push(STEINBERG);
+kernels.push(LINEARRANDOM);
+kernels.push(FALSESTEINBERG);
+kernels.push(PARTIALBURKE);
+kernels.push(INVERTEDSTEINBERG);
+kernels.push(SLANTED);
+kernels.push(COOL01);
+kernels.push(COOL02);
+kernels.push(COOL03);
+kernels.push(COOL04);
+kernels.push(COOL05);
+kernels.push(COOL06);
+kernels.push(CHRIS);
+kernels.push(STRUCTURE);
+console.log(kernels);
 function setup(){
    //pixelDensity(1);
    createCanvas(displayWidth, displayHeight);
    //sliders
    slider1 = createSlider(0, 360, 60, 1);
-   slider1.position(10, 100);
+   slider1.position(10, 50);
    slider1.style('width', '80px');
    slider2 = createSlider(0, 360, 24, 1);
    slider2.position(slider1.x, slider1.y + 40);
    slider2.style('width', '80px');
    //input button for saving image
-   input = createInput();
-   input.position(20, 5);
+   input = createInput('name the dither (I will add .png)');
+   input.position(slider1.x, 5);
+   input.style('width', '180px')
    button = createButton('save');
-   button.position(input.x + input.width, 5);
+   button.position(input.x + input.width + 5, 5);
    button.mousePressed(saveImg);
-   saveTxt = createElement('h3', 'name the dither (I will add .png)');
-   saveTxt.position(input.x + input.width + button.width, 0);
+   //change kernel button
+   changeKernel = createButton('change dither');
+   changeKernel.position(input.x, 25);
+   changeKernel.mousePressed(nextKernel);
+   // saveTxt = createElement('h3', 'name the dither (I will add .png)');
+   // saveTxt.position(input.x + input.width + button.width, 0);
    ////image init 
    source = createImage(width / scaleFactor, height / scaleFactor);
    source = randomGradient(color(255, 0, 0), color(0, 255, 0), source, scaleFactor);
-   var display = dither(source, 16, 1, CHRIS);
+   var ker = kernels[kernCount % 14];
+   var display = dither(source, 16, 1, ker);
    // image(display, 0, 400);
    // image(source,0,0);
    big = nearestN(display, scaleFactor);
@@ -60,9 +82,11 @@ function draw(){
   stroke(255, 255, 0);
   strokeWeight(4);
   fill(col1);
-  rect(slider1.x - 5, slider1.y - (slider1.height / 2), 80, 20)
+  rect(slider1.x - 5, slider1.y - (slider1.height / 2), 80, 20);
   fill(col2);
-  rect(slider1.x - 5, slider2.y - (slider2.height / 2), 80, 20)
+  rect(slider1.x - 5, slider2.y - (slider2.height / 2), 80, 20);  
+  // fill(255);
+  // rect(saveTxt.x - 10, saveTxt.y + 10, saveTxt.width, saveTxt.height);
 }
 function mouseDragged(){
   // var val1 = slider1.value();
@@ -71,8 +95,9 @@ function mouseDragged(){
   // col1 = color(val1, 100, 100);
   // col2 = color(val2, 100, 100);
   // colorMode(RGB);
-  source = randomGradient(col1, col2, source, scaleFactor);
-  var display = dither(source, 16, 1, STEINBERG);
+  source = randomGradient(col1, col2, source, scaleFactor);  
+  var ker = kernels[kernCount % 14];
+  var display = dither(source, 16, 1, ker);
   // image(display, 0, 400);
   // image(source,0,0);
   big = nearestN(display, scaleFactor);
@@ -81,8 +106,17 @@ function mouseDragged(){
 //
 //save image function
 function saveImg() {
-  if(input.value == '')save(big, input.value() + '.png');
-  else save(big, 'I_wish_I_had_a_name.png');
+  save(big, input.value() + '.png');
+}
+function nextKernel(){
+  kernCount ++;
+  source = randomGradient(col1, col2, source, scaleFactor);  
+  var ker = kernels[kernCount % 14];
+  var display = dither(source, 16, 1, ker);
+  // image(display, 0, 400);
+  // image(source,0,0);
+  big = nearestN(display, scaleFactor);
+  image(big, 0, 0);
 }
 function randomGradient(c1, c2, img, sclFac) {
   img = createImage(width / sclFac, height / sclFac);
