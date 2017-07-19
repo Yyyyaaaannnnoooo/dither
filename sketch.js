@@ -1,6 +1,6 @@
 var source, big, gradient;
 var scaleFactor = 10;
-var kernCount = 0, posX;
+var kernCount = 0, posX, posY, prevVal1, prevVal2;
 var input, button, saveTxt, changeKernel, actualKernel, genDither, slider1, slider2, pixSize;
 var kernelName = ['STEINBERG', 'LINEARRANDOM', 'FALSESTEINBERG', 'PARTIALBURKE', 'INVERTEDSTEINBERG',
                   'SLANTED', 'COOL01', 'COOL02', 'COOL03', 'COOL04', 'COOL05', 'COOL06', 'CHRIS', 'STRUCTURE'];
@@ -31,17 +31,18 @@ function setup(){
    //pixelDensity(1);
    var cnv = createCanvas(1200, 750);
    posX = (windowWidth / 2) - (width / 2);
-   cnv.position(posX, 0);
+   posY = (windowHeight / 2) - (height / 2);
+   cnv.position(posX, posY);
    //sliders
    slider1 = createSlider(0, 360, 60, 1);
-   slider1.position(posX + 10, 50);
+   slider1.position(posX + 10, posY + 50);
    slider1.style('width', '80px');
    slider2 = createSlider(0, 360, 240, 1);
    slider2.position(slider1.x, slider1.y + 30);
    slider2.style('width', '80px');
       //change kernel button
    changeKernel = createButton('change dither');
-   changeKernel.position(slider1.x, 5);
+   changeKernel.position(slider1.x, slider1.y - 50);
    changeKernel.mousePressed(nextKernel);
    //change pixel size  button
    genDither = createButton('PIXEL SIZE');
@@ -58,6 +59,9 @@ function setup(){
    button = createButton('save');
    button.position(changeKernel.x + changeKernel.width + actualKernel.width + 5, changeKernel.y);
    button.mousePressed(saveImg);
+   //info button
+   var info = createButton('AS SMALLER AS THE PIXEL ARE AS SLOWER THE SCRIPT RUNS');
+   info.position(button.x + button.width, posY);
    // saveTxt = createElement('h3', 'name the dither (I will add .png)');
    // saveTxt.position(input.x + input.width + button.width, 0);
    ////image init 
@@ -82,21 +86,18 @@ function draw(){
   colorMode(RGB);
   image(gradient, 0, 0);
   stroke(0, 255, 255);
-  strokeWeight(3);
+  strokeWeight(2);
   fill(col1);
-  rect(13, slider1.y, 80, 20);
+  rect(17, slider1.y - 85, 85, 20);
   fill(col2);
-  rect(13, slider2.y, 80, 20); 
+  rect(17, slider2.y - 85, 85, 20);
+  if(prevVal1 != val1 || prevVal2 != val2){
+    generateDither();
+    prevVal1 = val1;
+    prevVal2 = val2;
+  }
   // fill(255);
   // rect(saveTxt.x - 10, saveTxt.y + 10, saveTxt.width, saveTxt.height);
-}
-function mouseDragged(){ 
-  generateDither(); 
-  //gradient = randomGradient(col1, col2, gradient, gradient.width, gradient.height);
-}
-function mouseClicked(){
-  generateDither(); 
-
 }
 //save image function
 function saveImg() {
@@ -113,7 +114,7 @@ function nextKernel(){
 //increase decrease pixel size function
 function updatePix(){
   scaleFactor = round(pixSize.value());
-
+  generateDither();
   console.log(scaleFactor);
 }
 function generateDither(){
