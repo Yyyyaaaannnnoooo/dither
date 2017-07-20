@@ -28,7 +28,7 @@ var kernels = [STEINBERG, LINEARRANDOM, FALSESTEINBERG, PARTIALBURKE, INVERTEDST
                   SLANTED, COOL01, COOL02, COOL03, COOL04, COOL05, COOL06, CHRIS, STRUCTURE];
 console.log(kernels);
 function setup(){
-   //pixelDensity(1);
+   pixelDensity(1);
    var w = floor(window.innerWidth / 10) * 10;
    var h = floor(window.innerHeight / 10) * 10;
    console.log(w, h);
@@ -68,9 +68,9 @@ function setup(){
    // saveTxt = createElement('h3', 'name the dither (I will add .png)');
    // saveTxt.position(input.x + input.width + button.width, 0);
    ////image init 
-   source = createImage(width / scaleFactor, height / scaleFactor);
+   source = createImage(floor(width / scaleFactor), floor(height / scaleFactor));
    //initialize the gradient image
-   gradient = createImage(80, height);
+   //gradient = createImage(80, height);
    var val1 = slider1.value();
    var val2 = slider2.value();
    colorMode(HSB);
@@ -107,7 +107,7 @@ function saveImg() {
   save(big, actualKernel.value() + '.png');
 }
 function nextKernel(){
-  kernCount ++;
+  kernCount++;
   generateDither();
     //iput field with kernel name
    actualKernel = createInput(kernelName[kernCount % 14] + ' (I will add .png)');
@@ -116,7 +116,7 @@ function nextKernel(){
 }
 //increase decrease pixel size function
 function updatePix(){
-  scaleFactor = round(pixSize.value());
+  scaleFactor = floor(pixSize.value());
   generateDither();
   console.log(scaleFactor);
 }
@@ -157,7 +157,6 @@ function randomGradient(c1, c2, img, w, h) {
 
 
 function dither(src1, factor, level, kernel) {
-  var s = 1;
   ///create a copy of the original image///
   var src = createImage(src1.width, src1.height);
   //src.pixels = arrayCopy(src1.pixels, src.pixels);
