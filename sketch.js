@@ -63,7 +63,7 @@ function setup(){
    button.position(changeKernel.x + changeKernel.width + actualKernel.width + 5, changeKernel.y);
    button.mousePressed(saveImg);
    //info button
-   var info = createButton('AS SMALLER AS THE PIXEL ARE AS SLOWER THE SCRIPT RUNS');
+   var info = createButton('AS SMALLER AS THE PIXELS ARE AS SLOWER THE SCRIPT RUNS');
    info.position(button.x + button.width, posY);
    // saveTxt = createElement('h3', 'name the dither (I will add .png)');
    // saveTxt.position(input.x + input.width + button.width, 0);
