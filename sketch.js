@@ -29,9 +29,12 @@ var kernels = [STEINBERG, LINEARRANDOM, FALSESTEINBERG, PARTIALBURKE, INVERTEDST
 console.log(kernels);
 function setup(){
    //pixelDensity(1);
-   var cnv = createCanvas(1200, 750);
-   posX = (windowWidth / 2) - (width / 2);
-   posY = (windowHeight / 2) - (height / 2);
+   var w = floor(window.innerWidth / 10) * 10;
+   var h = floor(window.innerHeight / 10) * 10;
+   console.log(w, h);
+   var cnv = createCanvas(w, h);
+   posX = abs((window.innerWidth / 2) - (width / 2));
+   posY = 5;
    cnv.position(posX, posY);
    //sliders
    slider1 = createSlider(0, 360, 60, 1);
@@ -84,13 +87,13 @@ function draw(){
   col1 = color(val1, 100, 100);
   col2 = color(val2, 100, 100);
   colorMode(RGB);
-  image(gradient, 0, 0);
-  stroke(0, 255, 255);
-  strokeWeight(2);
-  fill(col1);
-  rect(17, slider1.y - 85, 85, 20);
-  fill(col2);
-  rect(17, slider2.y - 85, 85, 20);
+  // image(gradient, 0, 0);
+  // stroke(0, 255, 255);
+  // strokeWeight(2);
+  // fill(col1);
+  // rect(17, slider1.y - 85, 85, 20);
+  // fill(col2);
+  // rect(17, slider2.y - 85, 85, 20);
   if(prevVal1 != val1 || prevVal2 != val2){
     generateDither();
     prevVal1 = val1;
