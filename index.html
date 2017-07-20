@@ -8,9 +8,106 @@
         <script src="libraries/p5.dom.js"></script>
         <script src="libraries/p5.sound.js"></script>
         <script src="sketch.js"></script>
+        <script src="scripts.js"></script>
+        <style type="text/css" media="all">
+         /* Dropdown Button */
+            .dropbtn {                
+                position:fixed;
+                top:135px;
+                left: 5px;
+                background: #fff;
+                color: #000;
+                padding: 0px;
+                font-family: Helvetica;
+                font-weight: bolder;
+                font-size: 20px;
+                border: none;
+                cursor: ne-resize;
+                z-index: 1;
+            }
+
+            /* Dropdown button on hover & focus */
+            .dropbtn:hover {
+                letter-spacing: 5pt;
+            }
+
+            /* The container <div> - needed to position the dropdown content */
+            .dropdown {
+                top: 150px;
+                position: relative;
+                display: inline-block;
+            }
+
+            /* Dropdown Content (Hidden by Default) */
+            .dropdown-content {
+                display: none;
+                position: relative;
+                color: #000;
+                background: #ffffff;
+                font-family: Helvetica;
+                font-weight: bolder;                
+                cursor: ne-resize;
+                /*min-width: 160px;*/
+                /*max-width: 300px;*/
+                z-index: 1;
+            }
+
+            /* Links inside the dropdown */
+            .dropdown-content d {
+                color: #000;
+                background: #fff: 
+                padding: 12px 16px;
+                text-decoration: none;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+                overflow: hidden;
+                text-decoration: none;
+                list-style: none;
+                display: block;
+                float: down;
+            }
+
+            /* Change color of dropdown links on hover */
+            .dropdown-content d:hover {
+                color: #f00;
+                letter-spacing:5px;
+            }
+
+            /* Show the dropdown menu (use JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) */
+            .show {display:block;} 
+            </style>
     </head>
     <body  bgcolor="#FFF"> 
-
-
+        <div class="dropdown">
+          <button onclick="myFunction()" class="dropbtn">DITHERS</button>
+          <div id="myDropdown" class="dropdown-content">
+            <d onclick="steinberg()"">STEINBERG</d>
+            <d onclick="linear()">LINEARRANDOM</d>
+            <d onclick="falsest()">FALSESTEINBERG</d>
+            <d onclick="part()">PARTIALBURKE</d>
+            <d onclick="inverted()">INVERTEDSTEINBERG</d>
+            <d onclick="slanted()">SLANTED</d>
+            <d onclick="cool01()">COOL01</d>
+            <d onclick="cool02()">COOL02</d>
+            <d onclick="cool03()">COOL03</d>
+            <d onclick="cool04()">COOL04</d>
+            <d onclick="cool05()">COOL05</d>
+            <d onclick="cool06()">COOL06</d>
+            <d onclick="chris()">CHRIS</d>
+            <d onclick="structure()">STRUCTURE</d>
+            <d onclick="randomKernel()">RANDOM DITHER</d>
+          </div>
+        </div> 
     </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+

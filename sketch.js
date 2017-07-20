@@ -1,7 +1,9 @@
 var source, big, gradient;
 var scaleFactor = 10;
-var kernCount = 0, posX, posY, prevVal1, prevVal2;
-var input, button, saveTxt, changeKernel, actualKernel, genDither, slider1, slider2, pixSize;
+var kernCount = 0, posX, posY, prevVal1, prevVal2, prevFac, prevLev;
+var input, button, saveTxt, changeKernel, genDither, slider1, slider2, pixSize, slidFac, slidLev;
+var ker = [];
+var fac = 16, lev = 1;
 var kernelName = ['STEINBERG', 'LINEARRANDOM', 'FALSESTEINBERG', 'PARTIALBURKE', 'INVERTEDSTEINBERG',
                   'SLANTED', 'COOL01', 'COOL02', 'COOL03', 'COOL04', 'COOL05', 'COOL06', 'CHRIS', 'STRUCTURE'];
 var STEINBERG = [[0.0, 0.0, 0.0 ], [0.0, 0.0, 7.0], [3.0, 5.0, 1.0]]; //STEINBErg
@@ -27,6 +29,7 @@ var STRUCTURE = [[1.0, 0, 0], [7.0, 0, 6.0], [0, 2.0, 0]];///really nice structu
 var kernels = [STEINBERG, LINEARRANDOM, FALSESTEINBERG, PARTIALBURKE, INVERTEDSTEINBERG,
                   SLANTED, COOL01, COOL02, COOL03, COOL04, COOL05, COOL06, CHRIS, STRUCTURE];
 console.log(kernels);
+ker = STEINBERG;
 function setup(){
    pixelDensity(1);
    var w = floor(window.innerWidth / 10) * 10;
@@ -43,30 +46,28 @@ function setup(){
    slider2 = createSlider(0, 360, 240, 1);
    slider2.position(slider1.x, slider1.y + 30);
    slider2.style('width', '80px');
-      //change kernel button
-   changeKernel = createButton('change dither');
-   changeKernel.position(slider1.x, slider1.y - 50);
-   changeKernel.mousePressed(nextKernel);
-   //change pixel size  button
-   genDither = createButton('PIXEL SIZE');
-   genDither.position(slider1.x, changeKernel.y + changeKernel.height);
-   pixSize = createSlider(2, 10, 10, 1);
-   pixSize.position(slider1.x + genDither.width, genDither.y);
-   pixSize.style('width', '80px');   
-   genDither.mousePressed(updatePix);
-    //iput field with kernel name
-   actualKernel = createInput(kernelName[kernCount % 14] + ' (I will add .png)');
-   actualKernel.position(changeKernel.x + changeKernel.width, changeKernel.y);
-   actualKernel.style('width', '200px');
+   //sliders for factor and level
+   slidFac = createSlider(-3, 20, 16, 0.5);
+   slidFac.position(slider1.x, slider2.y + 30);
+   slidFac.style('width', '80px');
+    //input field 
+   input = createInput('choose a fancy name (I will add .png)');
+   input.position(slider1.x, posY);
+   input.style('width', '200px');
    //save button   
    button = createButton('save');
-   button.position(changeKernel.x + changeKernel.width + actualKernel.width + 5, changeKernel.y);
+   button.position(input.x + input.width + 5, input.y);
    button.mousePressed(saveImg);
    //info button
    var info = createButton('AS SMALLER AS THE PIXELS ARE AS SLOWER THE SCRIPT RUNS');
    info.position(button.x + button.width, posY);
-   // saveTxt = createElement('h3', 'name the dither (I will add .png)');
-   // saveTxt.position(input.x + input.width + button.width, 0);
+  //change pixel size  button
+   pixSize = createSlider(2, 10, 10, 1);
+   pixSize.position(slider1.x, slider1.y - 30);
+   pixSize.style('width', '80px');  
+   genDither = createButton('PIXEL SIZE');
+   genDither.position(pixSize.x + pixSize.width + 5, pixSize.y); 
+   genDither.mousePressed(updatePix);
    ////image init 
    source = createImage(floor(width / scaleFactor), floor(height / scaleFactor));
    //initialize the gradient image
@@ -77,7 +78,7 @@ function setup(){
    col1 = color(val1, 100, 100);
    col2 = color(val2, 100, 100);
    colorMode(RGB);
-   generateDither();
+   generateDither(STEINBERG);
 }
 
 function draw(){
@@ -87,47 +88,36 @@ function draw(){
   col1 = color(val1, 100, 100);
   col2 = color(val2, 100, 100);
   colorMode(RGB);
-  // image(gradient, 0, 0);
-  // stroke(0, 255, 255);
-  // strokeWeight(2);
-  // fill(col1);
-  // rect(17, slider1.y - 85, 85, 20);
-  // fill(col2);
-  // rect(17, slider2.y - 85, 85, 20);
-  if(prevVal1 != val1 || prevVal2 != val2){
-    generateDither();
+  fac = slidFac.value();
+  if(prevVal1 != val1 || prevVal2 != val2 || prevFac != fac){
+    generateDither(ker);
     prevVal1 = val1;
     prevVal2 = val2;
+    prevFac = fac;
   }
-  // fill(255);
-  // rect(saveTxt.x - 10, saveTxt.y + 10, saveTxt.width, saveTxt.height);
 }
 //save image function
 function saveImg() {
-  save(big, actualKernel.value() + '.png');
+  save(big, input.value() + '.png');
 }
-function nextKernel(){
-  kernCount++;
-  generateDither();
-    //iput field with kernel name
-   actualKernel = createInput(kernelName[kernCount % 14] + ' (I will add .png)');
-   actualKernel.position(changeKernel.x + changeKernel.width, changeKernel.y);
-   actualKernel.style('width', '200px');
+function randomKernel(){
+  generateDither(kernels[floor(random(14))]);
 }
 //increase decrease pixel size function
 function updatePix(){
   scaleFactor = floor(pixSize.value());
-  generateDither();
+  generateDither(ker);
   console.log(scaleFactor);
 }
-function generateDither(){
+function generateDither(kernel){
   source = randomGradient(col1, col2, source, floor(width / scaleFactor), floor(height / scaleFactor));  
-  var ker = kernels[kernCount % 14];
-  var display = dither(source, 16, 1, ker);
+  //var ker = kernels[kernCount % 14];
+  var display = dither(source, fac, lev, kernel);
   big = nearestN(display, scaleFactor);
   image(big, 0, 0);
   console.log('dither');
 }
+
 
 function randomGradient(c1, c2, img, w, h) {
   img = createImage(w, h);
