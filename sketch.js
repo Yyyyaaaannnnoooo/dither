@@ -121,7 +121,7 @@ function updatePix(){
   console.log(scaleFactor);
 }
 function generateDither(){
-  source = randomGradient(col1, col2, source, width / scaleFactor, height / scaleFactor);  
+  source = randomGradient(col1, col2, source, floor(width / scaleFactor), floor(height / scaleFactor));  
   var ker = kernels[kernCount % 14];
   var display = dither(source, 16, 1, ker);
   big = nearestN(display, scaleFactor);
