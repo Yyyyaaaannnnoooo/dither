@@ -34,7 +34,7 @@ function setup(){
    console.log(w, h);
    var cnv = createCanvas(w, h);
    posX = abs((window.innerWidth / 2) - (width / 2));
-   posY = 5;
+   posY = 0;
    cnv.position(posX, posY);
    //sliders
    slider1 = createSlider(0, 360, 60, 1);
