@@ -58,9 +58,6 @@ function setup(){
                 // font-family: Helvetica;
                 // font-weight: bolder;
                 // font-size: 20px;);
-   //info button
-   var info = createButton('AS SMALLER AS THE PIXELS ARE AS SLOWER THE SCRIPT RUNS');
-   info.position(button.x + button.width, posY);
   //change pixel size  button
    pixSize = createSlider(2, 10, 10, 1);
    pixSize.position(slider1.x, slider1.y - 30);
