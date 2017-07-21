@@ -3,8 +3,12 @@ toggle between hiding and showing the dropdown content */
 function myFunction() {
     document.getElementById("myDropdown").classList.toggle("show");
 }
+//////
+function reveal() {
+    document.getElementById("myInfo").classList.toggle("reveal");
+}
 
-
+//this needs to be updated
 function steinberg(){
 	ker = kernels[0]
   generateDither(ker);
@@ -64,14 +68,22 @@ function structure(){
 
 // Close the dropdown menu if the user clicks outside of it
 window.onclick = function(event) {
-  if (!event.target.matches('.dropbtn')) {
-
+	 if (!event.target.matches('.dropbtn')) {
     var dropdowns = document.getElementsByClassName("dropdown-content");
-    var i;
     for (i = 0; i < dropdowns.length; i++) {
       var openDropdown = dropdowns[i];
       if (openDropdown.classList.contains('show')) {
         openDropdown.classList.remove('show');
+      }
+    }
+  }
+  if (!event.target.matches('.infobtn')) {
+    var info = document.getElementsByClassName("info-content");
+    for (i = 0; i < dropdowns.length; i++) {
+      var openInfo = info[i];
+
+      if (openInfo.classList.contains('reveal')) {
+        openInfo.classList.remove('reveal');
       }
     }
   }

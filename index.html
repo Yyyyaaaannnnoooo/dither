@@ -11,6 +11,25 @@
         <script src="scripts.js"></script>
         <style type="text/css" media="all">
          /* Dropdown Button */
+            .portfolio{
+                position: fixed;
+                top: 95%;
+                left: 5px;
+                z-index: 1;
+            }
+            .portfolio a{
+                background: #fff;
+                color: #000;
+                padding: 0px;
+                font-family: Helvetica;
+                font-weight: bolder;
+                font-size: 20px;
+                border: none;
+                cursor: ne-resize;
+            }
+            .portfolio a:hover{
+                letter-spacing: 5px;
+            }
             .dropbtn {                
                 position:fixed;
                 top:135px;
@@ -43,13 +62,11 @@
                 display: none;
                 position: relative;
                 color: #000;
-                background: #ffffff;
-                font-family: Helvetica;
-                font-weight: bolder;                
+                background: #ffffff;                
                 cursor: ne-resize;
                 /*min-width: 160px;*/
                 /*max-width: 300px;*/
-                z-index: 1;
+                z-index: 2;
             }
 
             /* Links inside the dropdown */
@@ -57,11 +74,14 @@
                 color: #000;
                 background: #fff: 
                 padding: 12px 16px;
+                font-family: Helvetica;
+                font-weight: bolder;                
+                cursor: ne-resize;
                 text-decoration: none;
                 white-space: nowrap;
                 text-overflow: ellipsis;
                 overflow: hidden;
-                text-decoration: none;
+                /*text-decoration: none;*/
                 list-style: none;
                 display: block;
                 float: down;
@@ -76,12 +96,99 @@
             /* Show the dropdown menu (use JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) */
             .show {display:block;} 
             </style>
+            <style>
+            /*info menu with toogle function*/
+            .infobtn {                
+                position:fixed;
+                top:160px;
+                left: 5px;
+                background: #fff;
+                color: #000;
+                padding: 0px;
+                font-family: Helvetica;
+                font-weight: bolder;
+                font-size: 20px;
+                border: none;
+                cursor: ne-resize;
+                z-index: 1;
+            }
+
+            /* Dropdown button on hover & focus */
+            .infobtn:hover {
+                letter-spacing: 5pt;
+            }
+
+            /* The container <div> - needed to position the dropdown content */
+            .info {
+                top: 165px;
+                position: absolute;
+                display: inline-block;
+            }
+
+            /* info Content (Hidden by Default) */
+            .info-content {
+                top: 155px;
+                display: none;
+                position: relative;
+                color: #000;
+                background: #ffffff;
+                font-family: Helvetica;
+                font-weight: bolder;                
+                cursor: ne-resize;
+                /*min-width: 160px;*/
+                width: 400px;
+                height: auto;
+                z-index: 1;
+            }
+
+            /* Links inside the info */
+            .info-content d {
+                color: #000;
+                background: #fff: 
+                padding: 12px 16px;
+                text-overflow: ;
+                overflow: hidden;
+                text-decoration: none;
+                list-style: none;
+                display: block;
+            }
+
+            /* Change color of info links on hover */
+            .info-content d:hover {
+                color: #f00;
+                /*letter-spacing:5px;*/
+            }
+            .info-content g:hover {
+                color: #0f0;
+                /*letter-spacing:5px;*/
+            }
+            .info-content b:hover {
+                color: #00f;
+                /*letter-spacing:5px;*/
+            }
+            .info-content m:hover {
+                color: #f0f;
+                /*letter-spacing:5px;*/
+            }
+            .info-content c:hover {
+                color: #0ff;
+                /*letter-spacing:5px;*/
+            }
+            .info-content y:hover {
+                color: #ff0;
+                background-color: #000;
+                /*letter-spacing:5px;*/
+            }
+
+            /* Show the info menu (use JS to add this class to the .info-content container when the user clicks on the info button) */
+            .reveal {display:block;}
+            </style>
     </head>
     <body  bgcolor="#FFF"> 
         <div class="dropdown">
           <button onclick="myFunction()" class="dropbtn">DITHERS</button>
           <div id="myDropdown" class="dropdown-content">
-            <d onclick="steinberg()"">STEINBERG</d>
+            <d onclick="steinberg()">STEINBERG</d>
             <d onclick="linear()">LINEARRANDOM</d>
             <d onclick="falsest()">FALSESTEINBERG</d>
             <d onclick="part()">PARTIALBURKE</d>
@@ -98,6 +205,16 @@
             <d onclick="randomKernel()">RANDOM DITHER</d>
           </div>
         </div> 
+        <div class="info">
+          <button onclick="reveal()" class="infobtn">HOW?</button>
+          </div>
+          <div id="myInfo" class="info-content">            
+            <d>HI! YOU MIGHT WANT TO KNOW HOT TO OPERATE THIS WEBSITE?<br><g>1. THE FIRST SLIDER DEFINES THE PIXEL SIZE.  CLICK THE BUTTON "PIXEL SIZE" TO RECALCULATE THE IMAGE<br><b>2. THE FOLLOWING THO SLIDERS DEFINE THE UPPER AND LOWER COLOR OF THE IMAGE<br><m>3. THE FOURTH SLIDER DEFINES THE DITHER WEIGHT<br><c>5. FINALLY CHOOSE BETWEEN THE DIFFERENT DITHER ALGORITHMS IN THE DITHERS MENU<br><y>LAST BUT NOT LEAST, AS SMALLER THE PIXELS ARE AS SLOWEWR THE SCRIPT RUNS. BE RESPECTFUL AND SAVE YOURSELF AN IMAGE</y></c></m></b></g></d>
+          </div>
+        </div> 
+        <div class="portfolio">
+            <a href="http://www.yannpatrickmartins.com/">WHO'S BEHIND IT</a>
+        </div>
     </body>
 </html>
 

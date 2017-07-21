@@ -11,19 +11,13 @@ var LINEARRANDOM = [[0, 3.0, 0], [ 5.0, 0, 1.0], [0, 7.0, 0]];///linear 2
 var FALSESTEINBERG = [[0, 0, 0], [0, 0, 3.0], [0, 3.0, 2.0]];///false seinberg factor 8 4
 var PARTIALBURKE = [[0, 0, 0], [0, 0, 8.0], [4.0, 8.0, 4.0]];//part of burke factor 32 // really nice at low  factor 3.9 and level 2
 var INVERTEDSTEINBERG = [[1.0, 5.0, 3.0], [7.0, 0, 0], [0, 0, 0]];//8
-//8.433198 | 3.2546508 | 3.9625964 | 0.0 | 7.693716 | 0.0 | 8.920265 | 1.7277707 | 0.0 |
 var SLANTED = [[8.0, 0, 9.0], [3.0, 8.0, 2.0], [4.0, 0, 0]];//10
 var COOL01 = [[0, 5.0, 0], [0, 0, 1.0], [3.0, 0, 7.0]];///coool kernel 1
 var COOL02 = [[0, 0, 0], [5.0, 0, 3.0], [ 7.0, 0, 0]];///cool 2 3
-//4.0718956 | 8.834968 | 0.0 | 6.1390076 | 1.7300752 | 8.536661 | 0.0 | 2.5298612 | 0.0 | Very Cool
 var COOL03 = [[4.0, 9.0, 0.0], [6.0, 2.0, 9.0], [0, 3.0, 0]];//11
-//0.0 | 0.0 | 3.1726065 | 7.5329027 | 0.0 | 4.401523 | 1.5556533 | 5.9921546 | 1.4675739 | nice
 var COOL04 = [[0, 0, 3.0], [8.0, 0, 4.0], [2.0, 6.0, 1.0]];//12
-//0.0 | 8.747081 | 6.04726 | 8.657113 | 0.0 | 5.8474283 | 1.3418581 | 5.7040114 | 0.0 | nice 3
 var COOL05 = [[0.0, 9.0, 6.0], [9.0, 0.0, 6.0], [1.0, 6.0, 0.0]];//13
-//6.564631 | 0.0 | 6.814121 | 0.0 | 6.3458323 | 3.4435391 | 0.0 | 4.157616 | 5.9172835 | vertical horizontal lines
 var COOL06 = [[7.0, 0.0, 7.0], [0.0, 6.0, 3.0], [0.0, 4.0, 6.0]];//14
-//0.0 | 0.0 | 0.6782781 | 0.0 | 0.0 | 3.9686522 | 6.8295755 | 3.8442783 | 2.198808 |//ADD IT!
 var CHRIS = [[0.0, 0.0, 1.0], [0.0, 0.0, 4.0], [7.0, 4.0, 2.0]];//15
 var STRUCTURE = [[1.0, 0, 0], [7.0, 0, 6.0], [0, 2.0, 0]];///really nice structure
 var kernels = [STEINBERG, LINEARRANDOM, FALSESTEINBERG, PARTIALBURKE, INVERTEDSTEINBERG,
@@ -58,6 +52,12 @@ function setup(){
    button = createButton('save');
    button.position(input.x + input.width + 5, input.y);
    button.mousePressed(saveImg);
+   button.style('color', '#f00');
+                // color: #000;
+                // padding: 0px;
+                // font-family: Helvetica;
+                // font-weight: bolder;
+                // font-size: 20px;);
    //info button
    var info = createButton('AS SMALLER AS THE PIXELS ARE AS SLOWER THE SCRIPT RUNS');
    info.position(button.x + button.width, posY);
@@ -71,7 +71,6 @@ function setup(){
    ////image init 
    source = createImage(floor(width / scaleFactor), floor(height / scaleFactor));
    //initialize the gradient image
-   //gradient = createImage(80, height);
    var val1 = slider1.value();
    var val2 = slider2.value();
    colorMode(HSB);
@@ -98,8 +97,14 @@ function draw(){
 }
 //save image function
 function saveImg() {
-  save(big, input.value() + '.png');
+  saveTxt = input.value();
+  saveTxt = sortAlphabets(saveTxt);
+  console.log('saveTxt')
+  save(big, saveTxt + '_the_magic_of_sorting.png');
 }
+var sortAlphabets = function(text) {
+    return text.split('').sort().join('');
+};
 function randomKernel(){
   generateDither(kernels[floor(random(14))]);
 }
@@ -121,9 +126,6 @@ function generateDither(kernel){
 
 function randomGradient(c1, c2, img, w, h) {
   img = createImage(w, h);
-  //var img = createImage(100, 100);
-  // var c1 = color(0, 255, 255, 255); // set them back
-  // var c2 = color(255, 0, 255, 255);
   img.loadPixels();
   for (var x = 0; x < img.width; x++) {
     for (var y = 0; y < img.height; y++) {
@@ -149,7 +151,6 @@ function randomGradient(c1, c2, img, w, h) {
 function dither(src1, factor, level, kernel) {
   ///create a copy of the original image///
   var src = createImage(src1.width, src1.height);
-  //src.pixels = arrayCopy(src1.pixels, src.pixels);
   src.loadPixels();
     for (var y = 0; y < src.height; y++) {
       for (var x = 0; x < src.width; x++) {
