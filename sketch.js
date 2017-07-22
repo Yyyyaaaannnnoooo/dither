@@ -1,9 +1,14 @@
+function ditherKernel(name, kernel){
+  this.Name = name;
+  this.Kernel = kernel;
+}
 var source, big, gradient;
 var scaleFactor = 10;
 var kernCount = 0, posX, posY, prevVal1, prevVal2, prevFac, prevLev;
 var input, button, saveTxt, changeKernel, genDither, slider1, slider2, pixSize, slidFac, slidLev;
 var ker = [];
 var fac = 16, lev = 1;
+var ditherKernels = [];
 var kernelName = ['STEINBERG', 'LINEARRANDOM', 'FALSESTEINBERG', 'PARTIALBURKE', 'INVERTEDSTEINBERG',
                   'SLANTED', 'COOL01', 'COOL02', 'COOL03', 'COOL04', 'COOL05', 'COOL06', 'CHRIS', 'STRUCTURE'];
 var STEINBERG = [[0.0, 0.0, 0.0 ], [0.0, 0.0, 7.0], [3.0, 5.0, 1.0]]; //STEINBErg
@@ -22,7 +27,7 @@ var CHRIS = [[0.0, 0.0, 1.0], [0.0, 0.0, 4.0], [7.0, 4.0, 2.0]];//15
 var STRUCTURE = [[1.0, 0, 0], [7.0, 0, 6.0], [0, 2.0, 0]];///really nice structure
 var kernels = [STEINBERG, LINEARRANDOM, FALSESTEINBERG, PARTIALBURKE, INVERTEDSTEINBERG,
                   SLANTED, COOL01, COOL02, COOL03, COOL04, COOL05, COOL06, CHRIS, STRUCTURE];
-console.log(kernels);
+
 ker = STEINBERG;
 function setup(){
    pixelDensity(1);
@@ -33,6 +38,13 @@ function setup(){
    posX = abs((window.innerWidth / 2) - (width / 2));
    posY = 0;
    cnv.position(posX, posY);
+   ////creating the array with the kernels
+   for(var i = 0; i < kernels.length; i++){
+      var ditKer = new ditherKernel(kernelName[i], kernels[i]);
+      ditherKernels.push(ditKer);
+   }
+
+   console.log(ditherKernels);
    //sliders
    slider1 = createSlider(0, 360, 60, 1);
    slider1.position(posX + 10, posY + 50);
@@ -96,8 +108,11 @@ function draw(){
 function saveImg() {
   saveTxt = input.value();
   saveTxt = sortAlphabets(saveTxt);
-  console.log('saveTxt')
-  save(big, saveTxt + '_the_magic_of_sorting.png');
+  console.log('saveTxt');
+  var saveImage = randomGradient(col1, col2, source, floor(displayWidth / scaleFactor), floor(displayHeight / scaleFactor));
+  saveImage = dither(saveImage, fac, lev, ker);
+  saveImage = nearestN(saveImage, scaleFactor);
+  save(saveImage, saveTxt + '_the_magic_of_sorting.png');
 }
 var sortAlphabets = function(text) {
     return text.split('').sort().join('');

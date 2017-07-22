@@ -9,99 +9,12 @@
         <script src="libraries/p5.sound.js"></script>
         <script src="sketch.js"></script>
         <script src="scripts.js"></script>
-        <style type="text/css" media="all">
-         /* Dropdown Button */
-            .portfolio{
-                position: fixed;
-                top: 95%;
-                left: 5px;
-                z-index: 1;
-            }
-            .portfolio a{
-                background: #fff;
-                color: #000;
-                padding: 0px;
-                font-family: Helvetica;
-                font-weight: bolder;
-                font-size: 20px;
-                border: none;
-                cursor: ne-resize;
-            }
-            .portfolio a:hover{
-                letter-spacing: 5px;
-            }
-            .dropbtn {                
-                position:fixed;
-                top:135px;
-                left: 5px;
-                background: #fff;
-                color: #000;
-                padding: 0px;
-                font-family: Helvetica;
-                font-weight: bolder;
-                font-size: 20px;
-                border: none;
-                cursor: ne-resize;
-                z-index: 1;
-            }
-
-            /* Dropdown button on hover & focus */
-            .dropbtn:hover {
-                letter-spacing: 5pt;
-            }
-
-            /* The container <div> - needed to position the dropdown content */
-            .dropdown {
-                top: 150px;
-                position: relative;
-                display: inline-block;
-            }
-
-            /* Dropdown Content (Hidden by Default) */
-            .dropdown-content {
-                display: none;
-                position: relative;
-                color: #000;
-                background: #ffffff;                
-                cursor: ne-resize;
-                /*min-width: 160px;*/
-                /*max-width: 300px;*/
-                z-index: 2;
-            }
-
-            /* Links inside the dropdown */
-            .dropdown-content d {
-                color: #000;
-                background: #fff: 
-                padding: 12px 16px;
-                font-family: Helvetica;
-                font-weight: bolder;                
-                cursor: ne-resize;
-                text-decoration: none;
-                white-space: nowrap;
-                text-overflow: ellipsis;
-                overflow: hidden;
-                /*text-decoration: none;*/
-                list-style: none;
-                display: block;
-                float: down;
-            }
-
-            /* Change color of dropdown links on hover */
-            .dropdown-content d:hover {
-                color: #f00;
-                letter-spacing:5px;
-            }
-
-            /* Show the dropdown menu (use JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) */
-            .show {display:block;} 
-            </style>
             <style>
             /*info menu with toogle function*/
             .infobtn {                
                 position:fixed;
-                top:160px;
-                left: 5px;
+                top:175px;
+                left: 7px;
                 background: #fff;
                 color: #000;
                 padding: 0px;
@@ -111,6 +24,8 @@
                 border: none;
                 cursor: ne-resize;
                 z-index: 1;
+                padding: 4px 4px 2px 4px;
+                outline: solid 3px #000;
             }
 
             /* Dropdown button on hover & focus */
@@ -120,14 +35,14 @@
 
             /* The container <div> - needed to position the dropdown content */
             .info {
-                top: 165px;
+                top: 180px;
                 position: absolute;
                 display: inline-block;
             }
 
             /* info Content (Hidden by Default) */
             .info-content {
-                top: 155px;
+                top: 195px;
                 display: none;
                 position: relative;
                 color: #000;
@@ -138,7 +53,8 @@
                 /*min-width: 160px;*/
                 width: 400px;
                 height: auto;
-                z-index: 1;
+                z-index: 1;                
+                outline: solid 3px #000;
             }
 
             /* Links inside the info */
@@ -146,7 +62,6 @@
                 color: #000;
                 background: #fff: 
                 padding: 12px 16px;
-                text-overflow: ;
                 overflow: hidden;
                 text-decoration: none;
                 list-style: none;
@@ -182,29 +97,91 @@
 
             /* Show the info menu (use JS to add this class to the .info-content container when the user clicks on the info button) */
             .reveal {display:block;}
+            /*class kernel*/
+            .kernels{
+                position:fixed;
+                top: 135px;
+                left: 5px;
+                background: #fff;
+                color: #000;
+                padding: 0px;
+                font-family: Helvetica;
+                font-weight: bolder;
+                font-size: 20px;
+                border: none;
+                cursor: ne-resize;
+                z-index: 1;
+            }
+
+            /*styling the select element*/
+            select {
+                font-family: Helvetica;
+                font-weight: bolder;
+                font-size: 20px;
+                padding-top: 3px;
+                padding-right: 3px;
+            }
+            select:hover{
+                color: #000;
+                background-color: #fff;
+            }
+            select:not([multiple]){
+                -webkit-appearance:none;
+                -moz-appearance:none;
+                border: solid 3px #000; 
+            }
+            /*styling the single entries of the list*/
+            option{
+                border: solid 1px #000;
+                font-size: 15px;
+                padding-top: 3px;
+            }
+            option:hover{
+                letter-spacing: 5px;
+            }
+            .portfolio{
+                position: fixed;
+                top: 95%;
+                left: 5px;
+                z-index: 1;
+            }
+            .portfolio a{
+                background: #fff;
+                color: #000;
+                padding: 0px;
+                font-family: Helvetica;
+                font-weight: bolder;
+                font-size: 20px;
+                border: none;
+                cursor: ne-resize;
+                padding: 4px 4px 2px 4px;
+                outline: solid 3px #000;
+            }
+            .portfolio a:hover{
+                letter-spacing: 5px;
+            }
+
             </style>
     </head>
     <body  bgcolor="#FFF"> 
-        <div class="dropdown">
-          <button onclick="myFunction()" class="dropbtn">DITHERS</button>
-          <div id="myDropdown" class="dropdown-content">
-            <d onclick="steinberg()">STEINBERG</d>
-            <d onclick="linear()">LINEARRANDOM</d>
-            <d onclick="falsest()">FALSESTEINBERG</d>
-            <d onclick="part()">PARTIALBURKE</d>
-            <d onclick="inverted()">INVERTEDSTEINBERG</d>
-            <d onclick="slanted()">SLANTED</d>
-            <d onclick="cool01()">COOL01</d>
-            <d onclick="cool02()">COOL02</d>
-            <d onclick="cool03()">COOL03</d>
-            <d onclick="cool04()">COOL04</d>
-            <d onclick="cool05()">COOL05</d>
-            <d onclick="cool06()">COOL06</d>
-            <d onclick="chris()">CHRIS</d>
-            <d onclick="structure()">STRUCTURE</d>
-            <d onclick="randomKernel()">RANDOM DITHER</d>
-          </div>
-        </div> 
+        <div class="kernels">
+            <select id="kernel" onchange="whichKernel()">
+              <option value="STEINBERG" selected>FLOYD-STEINBERG</option>
+              <option value="LINEARRANDOM">LINEARRANDOM</option>
+              <option value="FALSESTEINBERG">FALSESTEINBERG</option>
+              <option value="PARTIALBURKE">PARTIALBURKE</option>
+              <option value="INVERTEDSTEINBERG">INVERTEDSTEINBERG</option>
+              <option value="SLANTED">SLANTED</option>
+              <option value="COOL01">COOL01</option>
+              <option value="COOL02">COOL02</option>
+              <option value="COOL03">COOL03</option>
+              <option value="COOL04">COOL04</option>
+              <option value="COOL05">COOL05</option>
+              <option value="COOL02">COOL06</option>
+              <option value="CHRIS">CHRIS</option>
+              <option value="STRUCTURE">STRUCTURE</option>
+          </select>
+        </div>
         <div class="info">
           <button onclick="reveal()" class="infobtn">HOW?</button>
           </div>

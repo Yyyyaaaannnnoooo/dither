@@ -2,69 +2,33 @@
 toggle between hiding and showing the dropdown content */
 function myFunction() {
     document.getElementById("myDropdown").classList.toggle("show");
+    //console.log(document.getElementsByTagName("d")[0].getAttribute("value"));
 }
 //////
+function whichKernel(){
+	// //var k = document.getElementsByTagName("d");//.getAttribute("value");
+	// var k = document.getElementById("t").getAttribute("value");
+	// for(var i = 0; i < k.length; i++){
+
+	// }
+	// console.log(k);
+	var select = document.getElementById("kernel");
+	var answer = select.options[select.selectedIndex].value;
+	if(ditherKernels != null){
+		for(var i = 0; i < ditherKernels.length; i++){
+			if(answer == ditherKernels[i].Name){
+				ker = ditherKernels[i].Kernel;
+				break;
+			}
+		}
+	}
+	generateDither(ker);
+	console.log(answer);
+}
 function reveal() {
     document.getElementById("myInfo").classList.toggle("reveal");
 }
 
-//this needs to be updated
-function steinberg(){
-	ker = kernels[0]
-  generateDither(ker);
-}
-function linear(){
-  	ker = kernels[1]
-  generateDither(ker);
-}
-function falsest(){
-  	ker = kernels[2];
-  generateDither(ker);
-}
-function part(){
-  	ker = kernels[3];
-  generateDither(ker);
-}
-function inverted(){
-  	ker = kernels[4];
-  generateDither(ker);
-}
-function slanted(){
-  	ker = kernels[5];
-  generateDither(ker);
-}
-function cool01(){
-  	ker = kernels[6];
-  generateDither(ker);
-}
-function cool02(){
-  	ker = kernels[7];
-  generateDither(ker);
-}
-function cool03(){
-  	ker = kernels[8];
-  generateDither(ker);
-}
-function cool04(){
-  	ker = kernels[9];
-  generateDither(ker);
-}
-function cool05(){
-  	ker = kernels[10];
-  generateDither(ker);
-}
-function cool06(){
-  	ker = kernels[11];
-  generateDither(ker);
-}
-function chris(){
-  	ker = kernels[12];
-  generateDither(ker);
-}
-function structure(){
-  	ker = kernels[13];
-  generateDither(ker);
-}
 
 // Close the dropdown menu if the user clicks outside of it
 window.onclick = function(event) {
@@ -79,7 +43,7 @@ window.onclick = function(event) {
   }
   if (!event.target.matches('.infobtn')) {
     var info = document.getElementsByClassName("info-content");
-    for (i = 0; i < dropdowns.length; i++) {
+    for (i = 0; i < info.length; i++) {
       var openInfo = info[i];
 
       if (openInfo.classList.contains('reveal')) {
