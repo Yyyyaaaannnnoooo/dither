@@ -38,7 +38,7 @@ function personalDither(){
   }
   ker = matrix;
   generateDither(ker);
-  console.log(matrix);
+  //console.log(matrix);
 }
 
 // Close the dropdown menu if the user clicks outside of it

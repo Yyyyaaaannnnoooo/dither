@@ -90,7 +90,7 @@ function setup(){
    colorMode(RGB);
    di = new ditherImage(0, 0, w, h, true, source);
    generateDither(STEINBERG);
-   console.log(slider1.value(), slider2.value(), prevVal1, prevVal2);
+   //console.log(slider1.value(), slider2.value(), prevVal1, prevVal2);
 }
 
 function draw(){
@@ -107,7 +107,7 @@ function draw(){
   }
   fac = slidFac.value();
   if(prevVal1 != val1 || prevVal2 != val2 || prevFac != fac){
-    console.log('true');
+    //console.log('true');
     generateDither(ker);
     prevVal1 = val1;
     prevVal2 = val2;
@@ -139,7 +139,7 @@ function updatePix(){
   //console.log(scaleFactor);
 }
 function generateDither(kernel){
-    console.log(di);
+    //console.log(di);
      di.update(col1, col2, fac, lev, ker, scaleFactor);
      di.show();
 }

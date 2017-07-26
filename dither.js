@@ -11,7 +11,7 @@ function ditherImage(X, Y, theWidth, theHeight, inverse, sourceImage){
 	}
 
 	this.update = function (color1, color2, fac, lev, theKernel, scalingFactor){
-		console.log(this.sI);
+		//console.log(this.sI);
 		this.srcImage = this.gradient(color1, color2, this.sI, ceil(this.w / scalingFactor), ceil(this.h / scalingFactor));
 		this.ditheredImage = this.dither(this.srcImage, fac, lev, theKernel, scalingFactor);
 		var i = 1;
