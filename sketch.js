@@ -3,11 +3,11 @@ function ditherKernel(name, kernel){
   this.Kernel = kernel;
 }
 
-var source, big, gradient;
+var source, big;
 var scaleFactor = 10;
-var kernCount = 0, posX, posY, prevVal1, prevVal2, prevFac, prevLev;
+var posX, posY, prevVal1, prevVal2, prevFac, prevLev, isBW = false;
 var posMouseX, posMouseY;
-var input, button, saveTxt, changeKernel, genDither, slider1, slider2, pixSize, slidFac, slidLev;
+var input, button, saveTxt, changeKernel, genDither, slider1, slider2, pixSize, slidFac, slidLev, BW;
 var ker = [];
 var fac = 16, lev = 1;
 var ditherKernels = [];
@@ -46,10 +46,10 @@ function setup(){
       ditherKernels.push(ditKer);
    }
    //sliders
-   slider1 = createSlider(0, 360, 60, 1);
+   slider1 = createSlider(0, 360, random(360), 1);
    slider1.position(posX + 10, posY + 60);
    slider1.style('width', '80px');
-   slider2 = createSlider(0, 360, 240, 1);
+   slider2 = createSlider(0, 360, random(360), 1);
    slider2.position(slider1.x, slider1.y + 30);
    slider2.style('width', '80px');
    //sliders for factor and level
@@ -77,28 +77,37 @@ function setup(){
    genDither = createButton('PIXEL SIZE');
    genDither.position(pixSize.x + pixSize.width + 15, pixSize.y + 5); 
    genDither.mousePressed(updatePix);
+   //turn to black and white button
+   BW = createButton('BW');
+   BW.mousePressed(blackAndWhite);
+   BW.position(button.x + button.width + 15, button.y);
    ////image init 
    source = createImage(floor(width / scaleFactor), floor(height / scaleFactor));
    //initialize the gradient image
-   var val1 = slider1.value();
-   var val2 = slider2.value();
    colorMode(HSB);
-   col1 = color(val1, 100, 100);
-   col2 = color(val2, 100, 100);
+   col1 = color(slider1.value(), 100, 100);
+   col2 = color(slider2.value(), 100, 100);
    colorMode(RGB);
    di = new ditherImage(0, 0, w, h, true, source);
    generateDither(STEINBERG);
+   console.log(slider1.value(), slider2.value(), prevVal1, prevVal2);
 }
 
 function draw(){
   var val1 = slider1.value();
   var val2 = slider2.value();
-  colorMode(HSB);
-  col1 = color(val1, 100, 100);
-  col2 = color(val2, 100, 100);
-  colorMode(RGB);
+  if(isBW){
+    col1 = color(val1);
+    col2 = color(val2);
+  }else{
+    colorMode(HSB);
+    col1 = color(val1, 100, 100);
+    col2 = color(val2, 100, 100);
+    colorMode(RGB);
+  }
   fac = slidFac.value();
   if(prevVal1 != val1 || prevVal2 != val2 || prevFac != fac){
+    console.log('true');
     generateDither(ker);
     prevVal1 = val1;
     prevVal2 = val2;
@@ -110,8 +119,18 @@ function draw(){
 function saveImg() {
   di.saveImg(input.value(), col1, col2, scaleFactor, fac, lev, ker);
 }
-function randomKernel(){
-  generateDither(kernels[floor(random(14))]);
+function blackAndWhite(){
+  isBW = !isBW;
+  if(isBW){
+    col1 = color(slider1.value());
+    col2 = color(slider2.value());
+  }else{
+    colorMode(HSB);
+    col1 = color(slider1.value(), 100, 100);
+    col2 = color(slider2.value(), 100, 100);
+    colorMode(RGB);
+  }
+  generateDither(ker);
 }
 //increase decrease pixel size function
 function updatePix(){
