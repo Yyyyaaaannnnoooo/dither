@@ -5,7 +5,7 @@ function ditherKernel(name, kernel){
 
 var source, big;
 var scaleFactor = 10;
-var posX, posY, prevVal1, prevVal2, prevFac, prevLev, isBW = false;
+var posX, posY, prevVal1, prevVal2, prevFac, prevLev, prevPixSize = 0, isBW = false;
 var posMouseX, posMouseY;
 var input, button, saveTxt, changeKernel, genDither, slider1, slider2, pixSize, slidFac, slidLev, BW;
 var ker = [];
@@ -74,9 +74,9 @@ function setup(){
    pixSize = createSlider(2, 10, 10, 1);
    pixSize.position(slider1.x, slider1.y - 30);
    pixSize.style('width', '80px');  
-   genDither = createButton('PIXEL SIZE');
-   genDither.position(pixSize.x + pixSize.width + 15, pixSize.y + 5); 
-   genDither.mousePressed(updatePix);
+   // genDither = createButton('PIXEL SIZE');
+   // genDither.position(pixSize.x + pixSize.width + 15, pixSize.y + 5); 
+   // genDither.mousePressed(updatePix);
    //turn to black and white button
    BW = createButton('BW');
    BW.mousePressed(blackAndWhite);
@@ -106,12 +106,14 @@ function draw(){
     colorMode(RGB);
   }
   fac = slidFac.value();
-  if(prevVal1 != val1 || prevVal2 != val2 || prevFac != fac){
-    //console.log('true');
+  if(prevVal1 != val1 || prevVal2 != val2 || prevFac != fac || prevPixSize != pixSize.value()){
+    //console.log('true');    
+    scaleFactor = floor(pixSize.value());
     generateDither(ker);
     prevVal1 = val1;
     prevVal2 = val2;
     prevFac = fac;
+    prevPixSize = pixSize.value();
   }
   //console.log(getFrameRate());
 }
@@ -133,11 +135,11 @@ function blackAndWhite(){
   generateDither(ker);
 }
 //increase decrease pixel size function
-function updatePix(){
-  scaleFactor = floor(pixSize.value());
-  generateDither(ker);
-  //console.log(scaleFactor);
-}
+// function updatePix(){
+//   scaleFactor = floor(pixSize.value());
+//   generateDither(ker);
+//   //console.log(scaleFactor);
+// }
 function generateDither(kernel){
     //console.log(di);
      di.update(col1, col2, fac, lev, ker, scaleFactor);

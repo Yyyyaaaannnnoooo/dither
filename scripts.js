@@ -23,6 +23,7 @@ function reveal() {
 }
 
 function personalDither(){
+  console.log('go');
   var matrix = [];
   var i = 1
   for (var y =  0; y < 3; y++) {
