@@ -10,9 +10,9 @@ function ditherImage(X, Y, theWidth, theHeight, inverse, sourceImage){
 		image(this.ditheredImage, this.x, this.y);
 	}
 
-	this.update = function (color1, color2, fac, lev, theKernel, scalingFactor){
+	this.update = function (color1, color2, fac, lev, theKernel, scalingFactor, isRadial){
 		//console.log(this.sI);
-		this.srcImage = this.gradient(color1, color2, this.sI, ceil(this.w / scalingFactor), ceil(this.h / scalingFactor));
+		this.srcImage = this.gradient(color1, color2, this.sI, ceil(this.w / scalingFactor), ceil(this.h / scalingFactor), isRadial);
 		this.ditheredImage = this.dither(this.srcImage, fac, lev, theKernel, scalingFactor);
 		var i = 1;
 		for (var x = 0; x < 3; x++) {
@@ -129,24 +129,23 @@ function ditherImage(X, Y, theWidth, theHeight, inverse, sourceImage){
 		  return destination;
 		}
 
-	this.gradient = function (c1, c2, img, w, h) {
+	this.gradient = function (c1, c2, img, w, h, radial) {
 	  img = createImage(w, h);
 	  img.loadPixels();
 	  for (var x = 0; x < img.width; x++) {
 	    for (var y = 0; y < img.height; y++) {
-	        var d = pixelDensity();
-	        for (var i = 0; i < d; i++) {
-	           for (var j = 0; j < d; j++) {
-	              var index = 4 * ((y * d + j) * img.width * d + (x * d + i));
-	              var amp = map(index, 0, img.width * img.height * 4, 0, 1);
+	        var d = pixelDensity();	        
+	        var index = 4 * (y * img.width + x);
+	        if(radial){
+	            var d = dist(x, y, img.width / 2, img.height / 2);
+	            var amp = map(d, 0, img.height / 2, 0, 1);
+	            } else var amp = map(index, 0, img.width * img.height * 4, 0, 1);
 	              if(this.inv)var col = lerpColor(c1, c2, amp);
 	              	else var col = lerpColor(c2, c1, amp);
 	              img.pixels[index] = red(col);
 	              img.pixels[index + 1] = green(col);
 	              img.pixels[index + 2] = blue(col);
 	              img.pixels[index + 3] = 255;
-	           }
-	        }
 	      }
 	  }
 	  img.updatePixels();

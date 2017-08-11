@@ -4,6 +4,7 @@ function ditherKernel(name, kernel){
 }
 
 var source, big;
+var radialGrad = false, RG, isRG;
 var scaleFactor = 10;
 var posX, posY, prevVal1, prevVal2, prevFac, prevLev, prevPixSize = 0, isBW = false;
 var posMouseX, posMouseY;
@@ -81,6 +82,10 @@ function setup(){
    BW = createButton('BW');
    BW.mousePressed(blackAndWhite);
    BW.position(button.x + button.width + 15, button.y);
+   //radial button
+   RG = createButton('ANTON');
+   RG.mousePressed(makeRadialGradient);
+   RG.position(BW.x + BW.width + 15, BW.y);
    ////image init 
    source = createImage(floor(width / scaleFactor), floor(height / scaleFactor));
    //initialize the gradient image
@@ -134,6 +139,11 @@ function blackAndWhite(){
   }
   generateDither(ker);
 }
+function makeRadialGradient(){
+  radialGrad = !radialGrad;
+  di.update(col1, col2, fac, lev, ker, scaleFactor, radialGrad);
+  di.show();
+}
 //increase decrease pixel size function
 // function updatePix(){
 //   scaleFactor = floor(pixSize.value());
@@ -142,6 +152,6 @@ function blackAndWhite(){
 // }
 function generateDither(kernel){
     //console.log(di);
-     di.update(col1, col2, fac, lev, ker, scaleFactor);
+     di.update(col1, col2, fac, lev, ker, scaleFactor, radialGrad);
      di.show();
 }
