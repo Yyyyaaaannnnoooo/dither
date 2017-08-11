@@ -124,7 +124,7 @@ function draw(){
 }
 //save image function
 function saveImg() {
-  di.saveImg(input.value(), col1, col2, scaleFactor, fac, lev, ker);
+  di.saveImg(input.value(), col1, col2, scaleFactor, fac, lev, ker, radialGrad);
 }
 function blackAndWhite(){
   isBW = !isBW;

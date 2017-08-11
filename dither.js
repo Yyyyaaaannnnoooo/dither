@@ -23,11 +23,11 @@ function ditherImage(X, Y, theWidth, theHeight, inverse, sourceImage){
 		}
 	}
 
-	this.saveImg = function(saveTxt, c1, c2, sf, fac, lev, krnl) {
+	this.saveImg = function(saveTxt, c1, c2, sf, fac, lev, krnl, isRadial) {
 		  saveTxt = this.sortAlphabets(saveTxt);
 		  //console.log('saveTxt');
 		  var saveImage = createImage(floor(displayWidth / sf), floor(displayHeight / sf));
-		  saveImage = this.gradient(c1, c2, saveImage, saveImage.width, saveImage.height);
+		  saveImage = this.gradient(c1, c2, saveImage, saveImage.width, saveImage.height, isRadial);
 		  saveImage = this.dither(saveImage, fac, lev, krnl, sf);
 		  save(saveImage, saveTxt + '_the_magic_of_sorting.png');
 		}
@@ -138,7 +138,7 @@ function ditherImage(X, Y, theWidth, theHeight, inverse, sourceImage){
 	        var index = 4 * (y * img.width + x);
 	        if(radial){
 	            var d = dist(x, y, img.width / 2, img.height / 2);
-	            var amp = map(d, 0, img.height / 2, 0, 1);
+	            var amp = map(d, 0, img.width / 2, 0, 1);
 	            } else var amp = map(index, 0, img.width * img.height * 4, 0, 1);
 	              if(this.inv)var col = lerpColor(c1, c2, amp);
 	              	else var col = lerpColor(c2, c1, amp);
