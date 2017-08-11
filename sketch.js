@@ -83,7 +83,7 @@ function setup(){
    BW.mousePressed(blackAndWhite);
    BW.position(button.x + button.width + 15, button.y);
    //radial button
-   RG = createButton('ANTON');
+   RG = createButton('ARTEM');
    RG.mousePressed(makeRadialGradient);
    RG.position(BW.x + BW.width + 15, BW.y);
    ////image init 
