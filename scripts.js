@@ -30,7 +30,7 @@ function personalDither(){
     matrix[y] = [];
     for (var x = 0; x < 3; x++) {
       var matrixVal = document.getElementById("k" + i).value;
-      if(isNaN(matrixVal) || matrixVal == '') matrixVal = floor(random(10));
+      if(isNaN(matrixVal) || matrixVal == '') matrixVal = floor(random(100));
         else matrixVal = parseInt(matrixVal);
         matrix[y][x] = matrixVal;
       //matrix.push(matrixVal);
