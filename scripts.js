@@ -3,48 +3,15 @@ toggle between hiding and showing the dropdown content */
 function myFunction() {
     document.getElementById("myDropdown").classList.toggle("show");
 }
-//////
-function whichKernel(){
-	var select = document.getElementById("kernel");
-	var answer = select.options[select.selectedIndex].value;
-	if(ditherKernels != null){
-		for(var i = 0; i < ditherKernels.length; i++){
-			if(answer == ditherKernels[i].Name){
-				ker = ditherKernels[i].Kernel;
-				break;
-			}
-		}
-	}
-	generateDither(ker);
-	//console.log(answer);
-}
+
 function reveal() {
     document.getElementById("myInfo").classList.toggle("reveal");
 }
 
-function personalDither(){
-  console.log('go');
-  var matrix = [];
-  var i = 1
-  for (var y =  0; y < 3; y++) {
-    matrix[y] = [];
-    for (var x = 0; x < 3; x++) {
-      var matrixVal = document.getElementById("k" + i).value;
-      if(isNaN(matrixVal) || matrixVal == '') matrixVal = floor(random(100));
-        else matrixVal = parseInt(matrixVal);
-        matrix[y][x] = matrixVal;
-      //matrix.push(matrixVal);
-      i++;
-    }
-  }
-  ker = matrix;
-  generateDither(ker);
-  //console.log(matrix);
-}
 
 // Close the dropdown menu if the user clicks outside of it
 window.onclick = function(event) {
-	 if (!event.target.matches('.dropbtn')) {
+   if (!event.target.matches('.dropbtn')) {
     var dropdowns = document.getElementsByClassName("dropdown-content");
     for (i = 0; i < dropdowns.length; i++) {
       var openDropdown = dropdowns[i];

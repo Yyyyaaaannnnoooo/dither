@@ -3,104 +3,79 @@ function ditherKernel(name, kernel){
   this.Kernel = kernel;
 }
 
-var source, big;
-var radialGrad = false, RG, isRG;
-var scaleFactor = 10;
-var posX, posY, prevVal1, prevVal2, prevFac, prevLev, prevPixSize = 0, isBW = false;
-var posMouseX, posMouseY;
-var input, button, saveTxt, changeKernel, genDither, slider1, slider2, pixSize, slidFac, slidLev, BW;
-var ker = [];
-var fac = 16, lev = 1;
-var ditherKernels = [];
-var kernelName = ['STEINBERG', 'LINEARRANDOM', 'FALSESTEINBERG', 'PARTIALBURKE', 'INVERTEDSTEINBERG',
-                  'SLANTED', 'COOL01', 'COOL02', 'COOL03', 'COOL04', 'COOL05', 'COOL06', 'CHRIS', 'STRUCTURE'];
-var STEINBERG = [[0.0, 0.0, 0.0 ], [0.0, 0.0, 7.0], [3.0, 5.0, 1.0]]; //STEINBErg
-var LINEARRANDOM = [[0, 3.0, 0], [ 5.0, 0, 1.0], [0, 7.0, 0]];///linear 2
-var FALSESTEINBERG = [[0, 0, 0], [0, 0, 3.0], [0, 3.0, 2.0]];///false seinberg factor 8 4
-var PARTIALBURKE = [[0, 0, 0], [0, 0, 8.0], [4.0, 8.0, 4.0]];//part of burke factor 32 // really nice at low  factor 3.9 and level 2
-var INVERTEDSTEINBERG = [[1.0, 5.0, 3.0], [7.0, 0, 0], [0, 0, 0]];//8
-var SLANTED = [[8.0, 0, 9.0], [3.0, 8.0, 2.0], [4.0, 0, 0]];//10
-var COOL01 = [[0, 5.0, 0], [0, 0, 1.0], [3.0, 0, 7.0]];///coool kernel 1
-var COOL02 = [[0, 0, 0], [5.0, 0, 3.0], [ 7.0, 0, 0]];///cool 2 3
-var COOL03 = [[4.0, 9.0, 0.0], [6.0, 2.0, 9.0], [0, 3.0, 0]];//11
-var COOL04 = [[0, 0, 3.0], [8.0, 0, 4.0], [2.0, 6.0, 1.0]];//12
-var COOL05 = [[0.0, 9.0, 6.0], [9.0, 0.0, 6.0], [1.0, 6.0, 0.0]];//13
-var COOL06 = [[7.0, 0.0, 7.0], [0.0, 6.0, 3.0], [0.0, 4.0, 6.0]];//14
-var CHRIS = [[0.0, 0.0, 1.0], [0.0, 0.0, 4.0], [7.0, 4.0, 2.0]];//15
-var STRUCTURE = [[1.0, 0, 0], [7.0, 0, 6.0], [0, 2.0, 0]];///really nice structure
-var kernels = [STEINBERG, LINEARRANDOM, FALSESTEINBERG, PARTIALBURKE, INVERTEDSTEINBERG,
-                  SLANTED, COOL01, COOL02, COOL03, COOL04, COOL05, COOL06, CHRIS, STRUCTURE];
-var di;
-var childDither = false;
+let source, big;
+let radialGrad = false, RG, isRG, startValue = 60 * 60 * 10, idleCounter = startValue, colorCount1, colorCount2, c1 = 155, c2 = 200;
+let scaleFactor = 10;
+let posX, posY, prevVal1, prevVal2, prevFac, prevLev, prevPixSize = 0, isBW = false;
+let posMouseX, posMouseY;
+let input, button, saveTxt, changeKernel, genDither, slider1, slider2, pixSize, slidFac, slidLev, BW;
+let ker = [];
+let fac = 16, lev = 1;
+let ditherKernels = [];
+let kernelName = ['STEINBERG', 'LINEARRANDOM', 'FALSESTEINBERG', 'PARTIALBURKE', 'INVERTEDSTEINBERG',
+'SLANTED', 'COOL01', 'COOL02', 'COOL03', 'COOL04', 'COOL05', 'COOL06', 'CHRIS', 'STRUCTURE'];
+let STEINBERG = [[0.0, 0.0, 0.0 ], [0.0, 0.0, 7.0], [3.0, 5.0, 1.0]]; //STEINBErg
+let LINEARRANDOM = [[0, 3.0, 0], [ 5.0, 0, 1.0], [0, 7.0, 0]];///linear 2
+let FALSESTEINBERG = [[0, 0, 0], [0, 0, 3.0], [0, 3.0, 2.0]];///false seinberg factor 8 4
+let PARTIALBURKE = [[0, 0, 0], [0, 0, 8.0], [4.0, 8.0, 4.0]];//part of burke factor 32 // really nice at low  factor 3.9 and level 2
+let INVERTEDSTEINBERG = [[1.0, 5.0, 3.0], [7.0, 0, 0], [0, 0, 0]];//8
+let SLANTED = [[8.0, 0, 9.0], [3.0, 8.0, 2.0], [4.0, 0, 0]];//10
+let COOL01 = [[0, 5.0, 0], [0, 0, 1.0], [3.0, 0, 7.0]];///coool kernel 1
+let COOL02 = [[0, 0, 0], [5.0, 0, 3.0], [ 7.0, 0, 0]];///cool 2 3
+let COOL03 = [[4.0, 9.0, 0.0], [6.0, 2.0, 9.0], [0, 3.0, 0]];//11
+let COOL04 = [[0, 0, 3.0], [8.0, 0, 4.0], [2.0, 6.0, 1.0]];//12
+let COOL05 = [[0.0, 9.0, 6.0], [9.0, 0.0, 6.0], [1.0, 6.0, 0.0]];//13
+let COOL06 = [[7.0, 0.0, 7.0], [0.0, 6.0, 3.0], [0.0, 4.0, 6.0]];//14
+let CHRIS = [[0.0, 0.0, 1.0], [0.0, 0.0, 4.0], [7.0, 4.0, 2.0]];//15
+let STRUCTURE = [[1.0, 0, 0], [7.0, 0, 6.0], [0, 2.0, 0]];///really nice structure
+let kernels = [STEINBERG, LINEARRANDOM, FALSESTEINBERG, PARTIALBURKE, INVERTEDSTEINBERG,
+SLANTED, COOL01, COOL02, COOL03, COOL04, COOL05, COOL06, CHRIS, STRUCTURE];
+let di;
+let childDither = false;
 ker = STEINBERG;
 function setup(){
-   pixelDensity(1);
-   var w = floor(window.innerWidth / 10) * 10;
-   var h = floor(window.innerHeight / 10) * 10;
-   var cnv = createCanvas(w, h);
-   posX = abs((window.innerWidth / 2) - (width / 2));
-   posY = 0;
-   cnv.position(posX, posY);
+ pixelDensity(1);
+ let w = floor(window.innerWidth / 10) * 10;
+ let h = floor(window.innerHeight / 10) * 10;
+ let cnv = createCanvas(w, h);
+ posX = abs((window.innerWidth / 2) - (width / 2));
+ posY = 0;
+ cnv.position(posX, posY);
    ////creating the array with the kernels
-   for(var i = 0; i < kernels.length; i++){
-      var ditKer = new ditherKernel(kernelName[i], kernels[i]);
-      ditherKernels.push(ditKer);
-   }
-   //sliders
-   slider1 = createSlider(0, 360, random(360), 1);
-   slider1.position(posX + 10, posY + 60);
-   slider1.style('width', '80px');
-   slider2 = createSlider(0, 360, random(360), 1);
-   slider2.position(slider1.x, slider1.y + 30);
-   slider2.style('width', '80px');
-   //sliders for factor and level
-   slidFac = createSlider(-3, 20, 16, 0.1);
-   slidFac.position(slider1.x, slider2.y + 30);
-   slidFac.style('width', '80px');
-    //input field 
-   input = createInput('choose a fancy name (I will add .png)');
-   input.position(slider1.x, posY - 3);
-   input.style('width', '200px');
-   //save button   
-   button = createButton('save');
-   button.position(input.x + input.width + 15, input.y + 5);
-   button.mousePressed(saveImg);
-   button.style('color', '#f00');
-                // color: #000;
-                // padding: 0px;
-                // font-family: Helvetica;
-                // font-weight: bolder;
-                // font-size: 20px;);
-  //change pixel size  button
-   pixSize = createSlider(2, 10, 10, 1);
-   pixSize.position(slider1.x, slider1.y - 30);
-   pixSize.style('width', '80px');  
-   // genDither = createButton('PIXEL SIZE');
-   // genDither.position(pixSize.x + pixSize.width + 15, pixSize.y + 5); 
-   // genDither.mousePressed(updatePix);
-   //turn to black and white button
-   BW = createButton('BW');
-   BW.mousePressed(blackAndWhite);
-   BW.position(button.x + button.width + 15, button.y);
-   //radial button
-   RG = createButton('ARTEM');
-   RG.mousePressed(makeRadialGradient);
-   RG.position(BW.x + BW.width + 15, BW.y);
+   for(let i = 0; i < kernels.length; i++){
+    let ditKer = new ditherKernel(kernelName[i], kernels[i]);
+    ditherKernels.push(ditKer);
+  }
    ////image init 
    source = createImage(floor(width / scaleFactor), floor(height / scaleFactor));
-   //initialize the gradient image
-   colorMode(HSB);
-   col1 = color(slider1.value(), 100, 100);
-   col2 = color(slider2.value(), 100, 100);
-   colorMode(RGB);
    di = new ditherImage(0, 0, w, h, true, source);
-   generateDither(STEINBERG);
+   updateValue();
+   // generateDither();
+   colorCount1 = floor(random(3));
+   colorCount2 = floor(random(3));
    //console.log(slider1.value(), slider2.value(), prevVal1, prevVal2);
-}
+ }
 
-function draw(){
-  var val1 = slider1.value();
-  var val2 = slider2.value();
+ function draw(){
+  if(idleCounter <= 0){
+    idleCounter = 0;
+    if(frameCount % 60 == 0)idleMode(colorCount1, colorCount2);
+  }
+  idleCounter --;
+}
+//save image function
+function saveImg() {
+  let saveTxt = "I_❤️_DITHERS";
+  di.saveImg(saveTxt, col1, col2, scaleFactor, fac, lev, ker, radialGrad);
+}
+function blackAndWhite(){
+  idleCounter = startValue;//reset the idlecounter to exit idleMode
+  colorCount1 = floor(random(3));
+  colorCount2 = floor(random(3));
+  isBW = !isBW;
+  let val1 = floor(document.getElementById("color1").value);
+  let val2 = floor(document.getElementById("color2").value);
+  console.log(val1, val2);
   if(isBW){
     col1 = color(val1);
     col2 = color(val2);
@@ -110,48 +85,113 @@ function draw(){
     col2 = color(val2, 100, 100);
     colorMode(RGB);
   }
-  fac = slidFac.value();
-  if(prevVal1 != val1 || prevVal2 != val2 || prevFac != fac || prevPixSize != pixSize.value()){
-    //console.log('true');    
-    scaleFactor = floor(pixSize.value());
-    generateDither(ker);
-    prevVal1 = val1;
-    prevVal2 = val2;
-    prevFac = fac;
-    prevPixSize = pixSize.value();
-  }
-  //console.log(getFrameRate());
+  generateDither();
 }
-//save image function
-function saveImg() {
-  di.saveImg(input.value(), col1, col2, scaleFactor, fac, lev, ker, radialGrad);
-}
-function blackAndWhite(){
-  isBW = !isBW;
-  if(isBW){
-    col1 = color(slider1.value());
-    col2 = color(slider2.value());
-  }else{
-    colorMode(HSB);
-    col1 = color(slider1.value(), 100, 100);
-    col2 = color(slider2.value(), 100, 100);
-    colorMode(RGB);
-  }
-  generateDither(ker);
-}
+
 function makeRadialGradient(){
+  idleCounter = startValue;//reset the idlecounter to exit idleMode
+  colorCount1 = floor(random(3));
+  colorCount2 = floor(random(3));
   radialGrad = !radialGrad;
   di.update(col1, col2, fac, lev, ker, scaleFactor, radialGrad);
   di.show();
 }
-//increase decrease pixel size function
-// function updatePix(){
-//   scaleFactor = floor(pixSize.value());
-//   generateDither(ker);
-//   //console.log(scaleFactor);
-// }
-function generateDither(kernel){
-    //console.log(di);
-     di.update(col1, col2, fac, lev, ker, scaleFactor, radialGrad);
-     di.show();
+
+function idleMode(num1, num2){
+  //add random kernel
+  //and let the timing be 10 min or check with boris
+  console.log('idle')
+  scaleFactor = 10;
+  c1 -= colorCount1;
+  c2 += colorCount2;
+  if(isBW){ 
+    col1 = color(c1 % 255);
+    col2 = color(c2 % 255);
+  }else{
+    colorMode(HSB);
+    col1 = color(c1 % 255, 100, 100);
+    col2 = color(c2 % 255, 100, 100);
+    colorMode(RGB);
+  }
+  generateDither();
 }
+
+function personalDither(){
+  console.log('go');
+  let matrix = [];
+  let i = 1
+  for (let y =  0; y < 3; y++) {
+    matrix[y] = [];
+    for (let x = 0; x < 3; x++) {
+      let matrixVal = document.getElementById("k" + i).value;
+      if(isNaN(matrixVal) || matrixVal == '') matrixVal = floor(random(100));
+      else matrixVal = parseInt(matrixVal);
+      matrix[y][x] = matrixVal;
+      //matrix.push(matrixVal);
+      i++;
+    }
+  }
+  ker = matrix;
+  generateDither();
+  //console.log(matrix);
+}
+//////
+function whichKernel(){
+  let select = document.getElementById("kernel");
+  let answer = select.options[select.selectedIndex].value;
+  if(ditherKernels != null){
+    for(let i = 0; i < ditherKernels.length; i++){
+      if(answer == ditherKernels[i].Name){
+        ker = ditherKernels[i].Kernel;
+        break;
+      }
+    }
+  }
+  generateDither();
+  //console.log(answer);
+}
+
+function generateDither(){
+    //console.log(di);
+    di.update(col1, col2, fac, lev, ker, scaleFactor, radialGrad);
+    di.show();
+  }
+
+  function updateValue(){  
+    scaleFactor = floor(document.getElementById("pixSize").value);
+    let val1 = floor(document.getElementById("color1").value);
+    let val2 = floor(document.getElementById("color2").value);
+    if(isBW){
+      col1 = color(val1);
+      col2 = color(val2);
+    }else{
+      colorMode(HSB);
+      col1 = color(val1, 100, 100);
+      col2 = color(val2, 100, 100);
+      colorMode(RGB);
+    }
+    fac = document.getElementById("factor").value;
+    generateDither();
+    idleCounter = startValue;//reset the idlecounter to exit idleMode
+    colorCount1 = floor(random(3));
+    colorCount2 = floor(random(3));
+  }
+
+  function setPosition(){
+    let items = document.getElementsByClassName("ditinput");
+    for(let i = 0; i < items.length; i++){
+      items[i].style.left = 10 + "px";
+    }    
+    let sliders = document.getElementsByClassName("sliders");
+    for(let i = 0; i < sliders.length; i++){
+      sliders[i].style.left = 10 + "px";
+    }
+    let elements = document.getElementsByClassName("kernels");
+    for(let i = 0; i < elements.length; i++){
+      elements[i].style.left = 10 + "px";
+    }
+    let info = document.getElementsByClassName("infobtn");
+    for(let i = 0; i < info.length; i++){
+      info[i].style.left = 15 + "px";
+    }
+  }
