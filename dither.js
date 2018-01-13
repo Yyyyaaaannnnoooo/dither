@@ -16,6 +16,7 @@ function ditherImage(X, Y, theWidth, theHeight, inverse, sourceImage){
 	new p5.Vector(0, 0, 0), 
 	new p5.Vector(col, col, col), 
 	]
+
 	this.show = function(){
 		image(this.ditheredImage, this.x, this.y);
 	}
@@ -51,7 +52,7 @@ function ditherImage(X, Y, theWidth, theHeight, inverse, sourceImage){
 		  src.loadPixels();
 		  src = src1;
 		//actual dither algorithm
-		for (let x = 1; x < src.width - 1; x++) {
+		for (let x = 1; x < src.width - 1; x++) {//x += 1;
 			for (let y = 1; y < src.height - 1; y++) {
 				let d = pixelDensity();
 				for (let i = 0; i < d; i++) {
@@ -92,15 +93,15 @@ function ditherImage(X, Y, theWidth, theHeight, inverse, sourceImage){
 		            }
 		        }
 		    }
-		        }///end of dither
+		}
 
 
-		        src.updatePixels();
-		        src = this.nearestN(src, sc);
-		        return src;
-		    }
+		src.updatePixels();
+		src = this.nearestN(src, sc);
+		return src;
+	}
 
-		    this.findClosestColor = function(c) {
+	this.findClosestColor = function(c) {
 		  ///Normalizing the colors///
 		  //level = lev;
 		  let norm = round(255);
