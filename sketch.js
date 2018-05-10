@@ -24,22 +24,11 @@ function setup(){
   posY = 0;
   cnv.position(posX, posY);
   //image init 
-  source = createImage(floor(width / scaleFactor), floor(height / scaleFactor));
-  di = new ditherImage(0, 0, w, h, true, source);
+  
+  di = new ditherImage();
   updateValue();
   colorCount1 = floor(random(3));
   colorCount2 = floor(random(3));
-  // Initialize Firebase
-  let config = {
-    apiKey: "AIzaSyCbAxda4yvrLEdjR3fcVgbU9ms04ek7tNI",
-    authDomain: "dither-b578e.firebaseapp.com",
-    databaseURL: "https://dither-b578e.firebaseio.com",
-    projectId: "dither-b578e",
-    storageBucket: "",
-    messagingSenderId: "827206455788"
-  };
-  firebase.initializeApp(config);
-  console.log(firebase);
 }
 
 function draw(){
@@ -141,7 +130,7 @@ function whichKernel(){
 
 function generateDither(){
   //console.log(di);
-  di.update(col1, col2, fac, lev, ker, scaleFactor, radialGrad);
+  di.update(col1, col2, fac, ker, scaleFactor, radialGrad);
   di.show();
 }
 
