@@ -14,7 +14,7 @@ class ditherImage {
 	update(color1, color2, fac, theKernel, scalingFactor, isRadial) {
 		console.log(this.ditheredImage);
 		let img = this.gradient(color1, color2, isRadial);
-		this.ditheredImage = this.dither(img, fac, theKernel, scalingFactor);
+		this.ditheredImage = this.dither(img, fac, theKernel, this.PS);
 		let i = 1;
 		for (let x = 0; x < 3; x++) {
 			for (let y = 0; y < 3; y++) {
