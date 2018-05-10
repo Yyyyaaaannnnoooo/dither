@@ -1,19 +1,10 @@
 class ditherImage {
 	constructor() {
 		this.w = width;
-		this.h = height;
-		this.sI = createImage(floor(this.w / scaleFactor), floor(this.h / scaleFactor));
-		let col = 255;
-		let colorPalette = [
-			new p5.Vector(col, 0, 0),
-			new p5.Vector(0, col, 0),
-			new p5.Vector(0, 0, col),
-			new p5.Vector(col, col, 0),
-			new p5.Vector(0, col, col),
-			new p5.Vector(col, 0, col),
-			new p5.Vector(0, 0, 0),
-			new p5.Vector(col, col, col),
-		]
+    this.h = height;
+    this.PS = 10
+    // this.srcImage = createImage(floor(this.w / this.PS), floor(this.h / this.PS));
+		this.ditheredImage = createImage(floor(this.w / this.PS), floor(this.h / this.PS));
 	}
 
 	show() {
@@ -21,9 +12,9 @@ class ditherImage {
 	}
 
 	update(color1, color2, fac, theKernel, scalingFactor, isRadial) {
-		//console.log(this.sI);
-		this.srcImage = this.gradient(color1, color2, this.sI, ceil(this.w / scalingFactor), ceil(this.h / scalingFactor), isRadial);
-		this.ditheredImage = this.dither(this.srcImage, fac, theKernel, scalingFactor);
+		console.log(this.ditheredImage);
+		let img = this.gradient(color1, color2, isRadial);
+		this.ditheredImage = this.dither(img, fac, theKernel, scalingFactor);
 		let i = 1;
 		for (let x = 0; x < 3; x++) {
 			for (let y = 0; y < 3; y++) {
@@ -32,12 +23,19 @@ class ditherImage {
 			}
 		}
 	}
+  setImageSize(_w, _h){
+    this.w = _w;
+    this.h = _h;
+    this.update()
+  }
+  setColor(c1, c2){
 
+  }
 	saveImg(saveTxt, c1, c2, sf, fac, krnl, isRadial) {
 		// saveTxt = this.sortAlphabets(saveTxt);
 		//console.log('saveTxt');
 		let saveImage = createImage(floor(displayWidth / sf), floor(displayHeight / sf));
-		saveImage = this.gradient(c1, c2, saveImage, saveImage.width, saveImage.height, isRadial);
+		saveImage = this.gradient(c1, c2, isRadial);
 		saveImage = this.dither(saveImage, fac, krnl, sf);
 		save(saveImage, saveTxt + '.png');
 	}
@@ -147,8 +145,8 @@ class ditherImage {
 		return destination;
 	}
 
-	gradient(c1, c2, img, w, h, radial) {
-		img = createImage(w, h);
+	gradient(c1, c2, radial) {
+		let img = createImage(this.w, this.h);
 		img.loadPixels();
 		let amp = 0
 		for (let x = 0; x < img.width; x++) {

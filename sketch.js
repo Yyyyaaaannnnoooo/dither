@@ -42,7 +42,7 @@ function draw(){
 //save image function
 function saveImg() {
   let saveTxt = "I_❤️_DITHERS";
-  di.saveImg(saveTxt, col1, col2, scaleFactor, fac, lev, ker, radialGrad);
+  di.saveImg(saveTxt, col1, col2, scaleFactor, fac, ker, radialGrad);
 }
 
 function blackAndWhite(){
@@ -70,7 +70,7 @@ function makeRadialGradient(){
   colorCount1 = floor(random(3));
   colorCount2 = floor(random(3));
   radialGrad = !radialGrad;
-  di.update(col1, col2, fac, lev, ker, scaleFactor, radialGrad);
+  di.update(col1, col2, fac, ker, scaleFactor, radialGrad);
   di.show();
 }
 
