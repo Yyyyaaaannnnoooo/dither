@@ -10,7 +10,7 @@ let ker = [];
 let fac = 16, lev = 1;
 let ditherKernels = [];
 
-let di;
+let dither;
 let childDither = false;
 
 initDitherKernels();
@@ -25,7 +25,7 @@ function setup(){
   cnv.position(posX, posY);
   //image init 
   
-  di = new ditherImage();
+  dither = new Dither();
   updateValue();
   colorCount1 = floor(random(3));
   colorCount2 = floor(random(3));
@@ -42,7 +42,7 @@ function draw(){
 //save image function
 function saveImg() {
   let saveTxt = "I_❤️_DITHERS";
-  di.saveImg(saveTxt, col1, col2, scaleFactor, fac, ker, radialGrad);
+  dither.saveImg(saveTxt, col1, col2, scaleFactor, fac, ker, radialGrad);
 }
 
 function blackAndWhite(){
@@ -70,8 +70,8 @@ function makeRadialGradient(){
   colorCount1 = floor(random(3));
   colorCount2 = floor(random(3));
   radialGrad = !radialGrad;
-  di.update(col1, col2, fac, ker, scaleFactor, radialGrad);
-  di.show();
+  dither.update(col1, col2, fac, ker, scaleFactor, radialGrad);
+  dither.show();
 }
 
 function idleMode(num1, num2){
@@ -128,11 +128,11 @@ function whichKernel(){
 //console.log(answer);
 }
 
-function generateDither(){
-  //console.log(di);
-  di.update(col1, col2, fac, ker, scaleFactor, radialGrad);
-  di.show();
-}
+// function generateDither(){
+//   //console.log(dither);
+//   dither.update(col1, col2, fac, ker, scaleFactor, radialGrad);
+//   dither.show();
+// }
 
 function updateValue(){  
   scaleFactor = floor(document.getElementById("pixSize").value);

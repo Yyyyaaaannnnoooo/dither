@@ -1,20 +1,25 @@
-class ditherImage {
+class Dither {
 	constructor() {
 		this.w = width;
-    this.h = height;
-    this.PS = 10
-    // this.srcImage = createImage(floor(this.w / this.PS), floor(this.h / this.PS));
+		this.h = height;
+		this.PS = 10;//pixel Size
+		this.BW = false;
+		this.radiant = false;
+		this.factor = 16;
+		this.col1 = color(100, 20, 47);
+		this.col2 = color(55, 150, 20);
+		this.kernel = [[0.0, 0.0, 0.0], [0.0, 0.0, 7.0], [3.0, 5.0, 1.0]]; //STEINBERG
+		// this.srcImage = createImage(floor(this.w / this.PS), floor(this.h / this.PS));
+		this.initDither();
+	}
+	initDither() {
 		this.ditheredImage = createImage(floor(this.w / this.PS), floor(this.h / this.PS));
 	}
-
-	show() {
-		image(this.ditheredImage, 0, 0);
+	getDither() {
+		return this.ditheredImage;
 	}
-
-	update(color1, color2, fac, theKernel, scalingFactor, isRadial) {
-		console.log(this.ditheredImage);
-		let img = this.gradient(color1, color2, isRadial);
-		this.ditheredImage = this.dither(img, fac, theKernel, this.PS);
+	generateDither() {
+		this.ditheredImage = this.dither(this.gradient(), this.factor, this.kernel);
 		let i = 1;
 		for (let x = 0; x < 3; x++) {
 			for (let y = 0; y < 3; y++) {
@@ -23,35 +28,75 @@ class ditherImage {
 			}
 		}
 	}
-  setImageSize(_w, _h){
-    this.w = _w;
-    this.h = _h;
-    this.update()
-  }
-  setColor(c1, c2){
+	setPixelSize(val) {
+		if (val < 1) this.PS = 1;
+		else this.PS = Math.ceil(val);
+	}
+	setImageSize(_w, _h) {
+		this.w = _w;
+		this.h = _h;
+		this.initDither();
+		this.generateDither();
+	}
+	setColor(c1, c2) {
+		if (this.BW) {
+			this.col1 = color(c1) || color(255);
+			this.col2 = color(c2) || color(0);
+		} else {
+			colorMode(HSB);
+			this.col1 = color(c1, 255, 255) || color(0, 255, 0);
+			this.col2 = color(c2, 255, 255) || color(255, 255, 0);
+			colorMode(RGB);
+		}
+	}
+	setRadiant(bool) {
+		this.radiant = bool;
+		this.generateDither();
+	}
+	setBW(bool) {
+		this.BW = bool;
+		this.setColor();
+		this.generateDither();
+	}
+	setFactor(val) {
+		this.factor = val;
+		this.generateDither();
+	}
+	setKernel(k) {
+		this.kernel = k;
+		this.generateDither();
+	}
+	show() {
+		image(this.ditheredImage, 0, 0);
+	}
 
-  }
-	saveImg(saveTxt, c1, c2, sf, fac, krnl, isRadial) {
+	update(color1, color2, fac, theKernel, scalingFactor, isRadial) {
+		console.log(this.ditheredImage);
+		let img = this.gradient(color1, color2, isRadial);
+		this.ditheredImage = this.dither(img, fac, theKernel, this.PS);
+
+	}
+
+	saveImg(saveTxt) {
 		// saveTxt = this.sortAlphabets(saveTxt);
 		//console.log('saveTxt');
-		let saveImage = createImage(floor(displayWidth / sf), floor(displayHeight / sf));
-		saveImage = this.gradient(c1, c2, isRadial);
-		saveImage = this.dither(saveImage, fac, krnl, sf);
+		let saveImage = createImage(floor(displayWidth / this.PS), floor(displayHeight / this.PS));
+		saveImage = this.dither(this.gradient(), this.factor, this.kernel);
 		save(saveImage, saveTxt + '.png');
 	}
 
 	sortAlphabets(text) {
 		return text.split('').sort().join('');
 	}
-  /**
-   * 
-   * @param {ImageBitmap} src1 
-   * @param {Number} factor 
-   * @param {Array} kernel 
-   * @param {Number} sc Scaling factor
-   * @returns The dithered and ienlrged image
-   */
-	dither(src1, factor, kernel, sc) {
+	/**
+	 * 
+	 * @param {ImageBitmap} src1 
+	 * @param {Number} factor 
+	 * @param {Array} kernel 
+	 * @param {Number} sc Scaling factor
+	 * @returns The dithered and ienlrged image
+	 */
+	dither(src1, factor, kernel) {
 		///create a copy of the original image///
 		let src = createImage(src1.width, src1.height);
 		src.loadPixels();
@@ -102,7 +147,7 @@ class ditherImage {
 
 
 		src.updatePixels();
-		src = this.nearestN(src, sc);
+		src = this.nearestN(src);
 		return src;
 	}
 
@@ -114,9 +159,9 @@ class ditherImage {
 		return nC;
 	}
 	//enlarging the Pixel
-	nearestN(img, num) {
+	nearestN(img) {
 		let destination;
-		destination = createImage(img.width * num, img.height * num);
+		destination = createImage(img.width * this.PS, img.height * this.PS);
 		destination.loadPixels();
 		//let a = [][];//a = new float [num][num];
 		for (let y = 0; y < img.height; y++) {
@@ -125,11 +170,11 @@ class ditherImage {
 				for (let i = 0; i < d; i++) {
 					for (let j = 0; j < d; j++) {
 						let index1 = 4 * ((y * d + j) * (img.width * d) + (x * d + i));
-						let nX = x * num;
-						let nY = y * num;
+						let nX = x * this.PS;
+						let nY = y * this.PS;
 						//kernel loop//
-						for (let yy = 0; yy < num; yy++) {
-							for (let xx = 0; xx < num; xx++) {
+						for (let yy = 0; yy < this.PS; yy++) {
+							for (let xx = 0; xx < this.PS; xx++) {
 								let index2 = 4 * ((nX + xx) + destination.width * (nY + yy));//improve with pixel density for retina displays
 								destination.pixels[index2] = img.pixels[index1];//red
 								destination.pixels[index2 + 1] = img.pixels[index1 + 1];//grenn
@@ -145,20 +190,20 @@ class ditherImage {
 		return destination;
 	}
 
-	gradient(c1, c2, radial) {
+	gradient() {
 		let img = createImage(this.w, this.h);
 		img.loadPixels();
 		let amp = 0
 		for (let x = 0; x < img.width; x++) {
 			for (let y = 0; y < img.height; y++) {
 				let index = 4 * (y * img.width + x);
-				if (radial) {
+				if (this.radiant) {
 					let d = dist(x, y, img.width / 2, img.height / 2);
 					amp = map(d, 0, img.width / 2, 0, 1);
 				} else {
 					amp = map(index, 0, img.width * img.height * 4, 0, 1);
 				}
-				var col = lerpColor(c2, c1, amp);
+				var col = lerpColor(this.col2, this.col1, amp);
 				img.pixels[index] = red(col);
 				img.pixels[index + 1] = green(col);
 				img.pixels[index + 2] = blue(col);

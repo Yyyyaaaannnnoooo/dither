@@ -1,281 +1,93 @@
 <!DOCTYPE html>
 
 <html>
-    <head>
-        <meta charset="utf-8"> 
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>DITHER</title>
-        <script src="libraries/p5.js"></script>
-        <script src="libraries/p5.dom.js"></script>
-        <script src="libraries/p5.sound.js"></script>
-        <script src="https://www.gstatic.com/firebasejs/4.7.0/firebase.js"></script>
-        <script src="sketch.js"></script>
-        <script src="scripts.js"></script>
-        <script src="dither.js"></script>
-            <style>
-            body {
-                margin: 0px;
-                padding: 0px;
-            }
-            /*info menu with toogle function*/
-            .infobtn {                
-                position:fixed;
-                top:240px;
-                left: 7px;
-                background: #fff;
-                color: #000;
-                padding: 0px;
-                font-family: Helvetica;
-                font-weight: bolder;
-                font-size: 20px;
-                border: none;
-                cursor: ne-resize;
-                z-index: 1;
-                padding: 4px 4px 2px 4px;
-                outline: solid 3px #000;
-            }
 
-            /* Dropdown button on hover & focus */
-            .infobtn:hover {
-                letter-spacing: 5pt;
-            }
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DITHER</title>
+    <script src="libraries/p5.js"></script>
+    <script src="libraries/p5.dom.js"></script>
+    <script src="libraries/p5.sound.js"></script>
+    <script src="sketch.js"></script>
+    <script src="scripts.js"></script>
+    <script src="dither.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
 
-            /* The container <div> - needed to position the dropdown content */
-            .info {
-                top: 230px;
-                position: absolute;
-                display: inline-block;
-            }
-
-            /* info Content (Hidden by Default) */
-            .info-content {
-                top: 270px;
-                left: 33%;
-                display: none;
-                position: relative;
-                color: #000;
-                background: #ffffff;
-                font-family: Helvetica;
-                font-weight: bolder;                
-                cursor: ne-resize;
-                /*min-width: 160px;*/
-                width: 400px;
-                height: auto;
-                z-index: 1;                
-                outline: solid 3px #000;
-            }
-
-            /* Links inside the info */
-            .info-content d {
-                color: #000;
-                background: #fff: 
-                padding: 12px 16px;
-                overflow: hidden;
-                text-decoration: none;
-                list-style: none;
-                display: block;
-            }
-
-            /* Change color of info links on hover */
-            .info-content d:hover {
-                color: #f00;
-                /*letter-spacing:5px;*/
-            }
-            .info-content g:hover {
-                color: #0f0;
-                /*letter-spacing:5px;*/
-            }
-            .info-content b:hover {
-                color: #00f;
-                /*letter-spacing:5px;*/
-            }
-            .info-content m:hover {
-                color: #f0f;
-                /*letter-spacing:5px;*/
-            }
-            .info-content c:hover {
-                color: #0ff;
-                /*letter-spacing:5px;*/
-            }
-            .info-content y:hover {
-                color: #ff0;
-                background-color: #000;
-                /*letter-spacing:5px;*/
-            }
-            .info-content w:hover {
-                color: #fff;
-                background-color: #00f;
-                /*letter-spacing:5px;*/
-            }
-
-            /* Show the info menu (use JS to add this class to the .info-content container when the user clicks on the info button) */
-            .reveal {display:block;}
-            /*class kernel*/
-            .kernels{
-                position:fixed;
-                top: 195px;
-                left: 5px;
-                background: #fff;
-                color: #000;
-                padding: 0px;
-                font-family: Helvetica;
-                font-weight: bolder;
-                font-size: 20px;
-                border: none;
-                cursor: ne-resize;
-                z-index: 1;
-            }
-
-            /*styling the select element*/
-            select {
-                font-family: Helvetica;
-                font-weight: bolder;
-                font-size: 20px;
-                padding-top: 3px;
-                padding-right: 3px;
-            }
-            select:hover{
-                color: #000;
-                background-color: #fff;
-            }
-            select:not([multiple]){
-                -webkit-appearance:none;
-                -moz-appearance:none;
-                border: solid 3px #000; 
-            }
-            /*styling the single entries of the list*/
-            option{
-                border: solid 1px #000;
-                font-size: 15px;
-                padding-top: 3px;
-            }
-            option:hover{
-                letter-spacing: 5px;
-            }
-            .portfolio{
-                display: none;
-                position: fixed;
-                top: 95%;
-                left: 5px;
-                z-index: 1;
-            }
-            .portfolio a{
-                background: #fff;
-                color: #000;
-                padding: 0px;
-                font-family: Helvetica;
-                font-weight: bolder;
-                font-size: 20px;
-                border: none;
-                cursor: ne-resize;
-                padding: 4px 4px 2px 4px;
-                outline: solid 3px #000;
-            }
-            .portfolio a:hover{
-                letter-spacing: 5px;
-            }
-            /*styling input*/
-            .ditinput{
-                position: fixed;
-                top: 290px;
-                z-index: 1;
-            }
-            
-            input{
-                position: relative;
-                width: 20px;
-                border: solid 3px #000;
-                margin: 3px;
-                height: 20px;
-                background-color: #fff;
-            }
-            /*styling buttons*/
-            button{
-                font-family: helvetica;
-                font-size: 20px;
-                font-weight: bolder;
-                background-color: #fff;
-                border: solid 3px #000;
-                padding-top: 3px;
-            }
-            .sliders{
-                position: fixed;
-                width: 20%;
-                top: 40px;
-                z-index: 1;
-            }
-            .buttons{
-                position: fixed;
-                top: 5px;
-                left: 10px;
-                z-index: 1;
-            }
-            </style>
-    </head>
-    <body  bgcolor="#FFF" onload="setPosition()"> 
-        <div class="buttons">
-            <button onclick="saveImg()">SAVE</button>
-            <button onclick="blackAndWhite()">BW</button>
-            <button onclick="makeRadialGradient()">RADIAL</button>
-        </div>
-        <div class="sliders">
-            <input type="range" id="pixSize" style="width: 200px;" value="10" min="4" max="10" step="1" onchange="updateValue()">
-            <input type="range" id="color1" style="width: 200px;" value="10" min="0" max="255" step="1" onchange="updateValue()">            
-            <input type="range" id="color2" style="width: 200px;" value="150" min="0" max="255" step="1" onchange="updateValue()">
-            <input type="range" id="factor" style="width: 200px;" value="16" min="-10" max="35" step="0.2" onchange="updateValue()">
-        </div>
-        <div class="kernels">
-            <select id="kernel" onchange="whichKernel()">
-              <option value="STEINBERG" selected>FLOYD-STEINBERG</option>
-              <option value="LINEARRANDOM">LINEARRANDOM</option>
-              <option value="FALSESTEINBERG">FALSESTEINBERG</option>
-              <option value="PARTIALBURKE">PARTIALBURKE</option>
-              <option value="INVERTEDSTEINBERG">INVERTEDSTEINBERG</option>
-              <option value="SLANTED">SLANTED</option>
-              <option value="COOL01">COOL01</option>
-              <option value="COOL02">COOL02</option>
-              <option value="COOL03">COOL03</option>
-              <option value="COOL04">COOL04</option>
-              <option value="COOL05">COOL05</option>
-              <option value="COOL02">COOL06</option>
-              <option value="CHRIS">CHRIS</option>
-              <option value="STRUCTURE">STRUCTURE</option>
-          </select>
-        </div>
-        <div class="ditinput">
-            <input type="text" id="k1" onchange="personalDither()">
-            <input type="text" id="k2" onchange="personalDither()">
-            <input type="text" id="k3" onchange="personalDither()">
+<body bgcolor="#FFF" onload="setPosition()">
+    <div class="buttons">
+        <button onclick="saveImg()">SAVE</button>
+        <button onclick="blackAndWhite()">BW</button>
+        <button onclick="makeRadialGradient()">RADIAL</button>
+    </div>
+    <div class="sliders">
+        <input type="range" id="pixSize" style="width: 200px;" value="10" min="4" max="10" step="1" onchange="updateValue()">
+        <input type="range" id="color1" style="width: 200px;" value="10" min="0" max="255" step="1" onchange="updateValue()">
+        <input type="range" id="color2" style="width: 200px;" value="150" min="0" max="255" step="1" onchange="updateValue()">
+        <input type="range" id="factor" style="width: 200px;" value="16" min="-10" max="35" step="0.2" onchange="updateValue()">
+    </div>
+    <div class="kernels">
+        <select id="kernel" onchange="whichKernel()">
+            <option value="STEINBERG" selected>FLOYD-STEINBERG</option>
+            <option value="LINEARRANDOM">LINEARRANDOM</option>
+            <option value="FALSESTEINBERG">FALSESTEINBERG</option>
+            <option value="PARTIALBURKE">PARTIALBURKE</option>
+            <option value="INVERTEDSTEINBERG">INVERTEDSTEINBERG</option>
+            <option value="SLANTED">SLANTED</option>
+            <option value="COOL01">COOL01</option>
+            <option value="COOL02">COOL02</option>
+            <option value="COOL03">COOL03</option>
+            <option value="COOL04">COOL04</option>
+            <option value="COOL05">COOL05</option>
+            <option value="COOL02">COOL06</option>
+            <option value="CHRIS">CHRIS</option>
+            <option value="STRUCTURE">STRUCTURE</option>
+        </select>
+    </div>
+    <div class="ditinput">
+        <input type="text" id="k1" onchange="personalDither()">
+        <input type="text" id="k2" onchange="personalDither()">
+        <input type="text" id="k3" onchange="personalDither()">
+        <br>
+        <input type="text" id="k4" onchange="personalDither()">
+        <input type="text" id="k5" onchange="personalDither()">
+        <input type="text" id="k6" onchange="personalDither()">
+        <br>
+        <input type="text" id="k7" onchange="personalDither()">
+        <input type="text" id="k8" onchange="personalDither()">
+        <input type="text" id="k9" onchange="personalDither()">
+    </div>
+    <div class="info">
+        <button onclick="reveal()" class="infobtn">HOW?</button>
+    </div>
+    <div id="myInfo" class="info-content">
+        <d>HI! YOU MIGHT WANT TO KNOW HOT TO OPERATE THIS WEBSITE?
             <br>
-            <input type="text" id="k4" onchange="personalDither()">
-            <input type="text" id="k5" onchange="personalDither()">
-            <input type="text" id="k6" onchange="personalDither()">
-            <br>
-            <input type="text" id="k7" onchange="personalDither()">
-            <input type="text" id="k8" onchange="personalDither()">
-            <input type="text" id="k9" onchange="personalDither()">
-        </div>
-        <div class="info">
-          <button onclick="reveal()" class="infobtn">HOW?</button>
-          </div>
-          <div id="myInfo" class="info-content">            
-            <d>HI! YOU MIGHT WANT TO KNOW HOT TO OPERATE THIS WEBSITE?<br><g>1. THE FIRST SLIDER DEFINES THE PIXEL SIZE.  CLICK THE BUTTON "PIXEL SIZE" TO RECALCULATE THE IMAGE<br><b>2. THE FOLLOWING TWO SLIDERS DEFINE THE UPPER AND LOWER COLOR OF THE IMAGE<br><m>3. THE FOURTH SLIDER DEFINES THE DITHER WEIGHT<br><c>5. FINALLY CHOOSE BETWEEN THE DIFFERENT DITHER ALGORITHMS IN THE DITHERS MENU<br><w>6. MAKE YOUR OWN DITHER MATRIX, WITH THE INPUT BOXES BELOW.<br><y>LAST BUT NOT LEAST, THE SMALLER THE PIXELS ARE THE SLOWER THE SCRIPT RUNS. BE RESPECTFUL AND SAVE YOURSELF AN IMAGE</y></w></c></m></b></g></d>
-          </div>
-        </div> 
-        
-        <div class="portfolio">
-            <a href="http://www.yannpatrickmartins.com/">WHO'S BEHIND IT</a>
-        </div>
-    </body>
+            <g>1. THE FIRST SLIDER DEFINES THE PIXEL SIZE. CLICK THE BUTTON "PIXEL SIZE" TO RECALCULATE THE IMAGE
+                <br>
+                <b>2. THE FOLLOWING TWO SLIDERS DEFINE THE UPPER AND LOWER COLOR OF THE IMAGE
+                    <br>
+                    <m>3. THE FOURTH SLIDER DEFINES THE DITHER WEIGHT
+                        <br>
+                        <c>5. FINALLY CHOOSE BETWEEN THE DIFFERENT DITHER ALGORITHMS IN THE DITHERS MENU
+                            <br>
+                            <w>6. MAKE YOUR OWN DITHER MATRIX, WITH THE INPUT BOXES BELOW.
+                                <br>
+                                <y>LAST BUT NOT LEAST, THE SMALLER THE PIXELS ARE THE SLOWER THE SCRIPT RUNS. BE RESPECTFUL
+                                    AND SAVE YOURSELF AN IMAGE</y>
+                            </w>
+                        </c>
+                    </m>
+                </b>
+            </g>
+        </d>
+    </div>
+    </div>
+
+    <div class="portfolio">
+        <a href="http://www.yannpatrickmartins.com/">WHO'S BEHIND IT</a>
+    </div>
+</body>
+
 </html>
-
-
-
-
-
-
-
-
-
-
-
