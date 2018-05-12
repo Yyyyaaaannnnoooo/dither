@@ -15,7 +15,7 @@ let childDither = false;
 
 initDitherKernels();
 
-function setup(){
+function setup() {
   pixelDensity(1);
   let w = floor(window.innerWidth / 10) * 10;
   let h = floor(window.innerHeight / 10) * 10;
@@ -24,19 +24,20 @@ function setup(){
   posY = 0;
   cnv.position(posX, posY);
   //image init 
-  
+
   dither = new Dither();
   updateValue();
   colorCount1 = floor(random(3));
   colorCount2 = floor(random(3));
 }
 
-function draw(){
-  if(idleCounter <= 0){
+function draw() {
+  image(dither.getDither(), 0, 0);
+  if (idleCounter <= 0) {
     idleCounter = 0;
-    if(frameCount % 60 == 0)idleMode(colorCount1, colorCount2);
+    if (frameCount % 60 == 0) idleMode(colorCount1, colorCount2);
   }
-  idleCounter --;
+  idleCounter--;
 }
 
 //save image function
@@ -45,7 +46,7 @@ function saveImg() {
   dither.saveImg(saveTxt, col1, col2, scaleFactor, fac, ker, radialGrad);
 }
 
-function blackAndWhite(){
+function blackAndWhite() {
   idleCounter = startValue;//reset the idlecounter to exit idleMode
   colorCount1 = floor(random(3));
   colorCount2 = floor(random(3));
@@ -53,10 +54,10 @@ function blackAndWhite(){
   let val1 = floor(document.getElementById("color1").value);
   let val2 = floor(document.getElementById("color2").value);
   console.log(val1, val2);
-  if(isBW){
+  if (isBW) {
     col1 = color(val1);
     col2 = color(val2);
-  }else{
+  } else {
     colorMode(HSB);
     col1 = color(val1, 100, 100);
     col2 = color(val2, 100, 100);
@@ -65,7 +66,7 @@ function blackAndWhite(){
   generateDither();
 }
 
-function makeRadialGradient(){
+function makeRadialGradient() {
   idleCounter = startValue;//reset the idlecounter to exit idleMode
   colorCount1 = floor(random(3));
   colorCount2 = floor(random(3));
@@ -74,17 +75,17 @@ function makeRadialGradient(){
   dither.show();
 }
 
-function idleMode(num1, num2){
+function idleMode(num1, num2) {
   //add random kernel
   //and let the timing be 10 min or check with boris
   console.log('idle')
   scaleFactor = 10;
   c1 -= colorCount1;
   c2 += colorCount2;
-  if(isBW){ 
+  if (isBW) {
     col1 = color(c1 % 255);
     col2 = color(c2 % 255);
-  }else{
+  } else {
     colorMode(HSB);
     col1 = color(c1 % 255, 100, 100);
     col2 = color(c2 % 255, 100, 100);
@@ -93,15 +94,15 @@ function idleMode(num1, num2){
   generateDither();
 }
 
-function personalDither(){
+function personalDither() {
   console.log('go');
   let matrix = [];
   let i = 1
-  for (let y =  0; y < 3; y++) {
+  for (let y = 0; y < 3; y++) {
     matrix[y] = [];
     for (let x = 0; x < 3; x++) {
       let matrixVal = document.getElementById("k" + i).value;
-      if(isNaN(matrixVal) || matrixVal == '') matrixVal = floor(random(100));
+      if (isNaN(matrixVal) || matrixVal == '') matrixVal = floor(random(100));
       else matrixVal = parseInt(matrixVal);
       matrix[y][x] = matrixVal;
       //matrix.push(matrixVal);
@@ -113,19 +114,19 @@ function personalDither(){
   //console.log(matrix);
 }
 
-function whichKernel(){
+function whichKernel() {
   let select = document.getElementById("kernel");
   let answer = select.options[select.selectedIndex].value;
-  if(ditherKernels != null){
-    for(let i = 0; i < ditherKernels.length; i++){
-      if(answer == ditherKernels[i].Name){
+  if (ditherKernels != null) {
+    for (let i = 0; i < ditherKernels.length; i++) {
+      if (answer == ditherKernels[i].Name) {
         ker = ditherKernels[i].Kernel;
         break;
       }
     }
   }
   generateDither();
-//console.log(answer);
+  //console.log(answer);
 }
 
 // function generateDither(){
@@ -134,61 +135,63 @@ function whichKernel(){
 //   dither.show();
 // }
 
-function updateValue(){  
+function updateValue() {
   scaleFactor = floor(document.getElementById("pixSize").value);
   let val1 = floor(document.getElementById("color1").value);
   let val2 = floor(document.getElementById("color2").value);
-  if(isBW){
+  dither.setColor(val1, val2);
+
+  if (isBW) {
     col1 = color(val1);
     col2 = color(val2);
-  }else{
+  } else {
     colorMode(HSB);
     col1 = color(val1, 100, 100);
     col2 = color(val2, 100, 100);
     colorMode(RGB);
   }
   fac = document.getElementById("factor").value;
-  generateDither();
+  dither.generateDither();
   idleCounter = startValue;//reset the idlecounter to exit idleMode
   colorCount1 = floor(random(3));
   colorCount2 = floor(random(3));
 }
 
-function setPosition(){
+function setPosition() {
   let items = document.getElementsByClassName("ditinput");
-  for(let i = 0; i < items.length; i++){
+  for (let i = 0; i < items.length; i++) {
     items[i].style.left = 10 + "px";
-  }    
+  }
   let sliders = document.getElementsByClassName("sliders");
-  for(let i = 0; i < sliders.length; i++){
+  for (let i = 0; i < sliders.length; i++) {
     sliders[i].style.left = 10 + "px";
   }
   let elements = document.getElementsByClassName("kernels");
-  for(let i = 0; i < elements.length; i++){
+  for (let i = 0; i < elements.length; i++) {
     elements[i].style.left = 10 + "px";
   }
   let info = document.getElementsByClassName("infobtn");
-  for(let i = 0; i < info.length; i++){
+  for (let i = 0; i < info.length; i++) {
     info[i].style.left = 15 + "px";
   }
 }
 
-function ditherKernel(name, kernel){
+function ditherKernel(name, kernel) {
   this.Name = name;
   this.Kernel = kernel;
 }
 
-function initDitherKernels(){
+function initDitherKernels() {
   let kernelName = ['STEINBERG', 'LINEARRANDOM', 'FALSESTEINBERG', 'PARTIALBURKE', 'INVERTEDSTEINBERG',
-  'SLANTED', 'COOL01', 'COOL02', 'COOL03', 'COOL04', 'COOL05', 'COOL06', 'CHRIS', 'STRUCTURE'];
-  let STEINBERG = [[0.0, 0.0, 0.0 ], [0.0, 0.0, 7.0], [3.0, 5.0, 1.0]]; //STEINBErg
-  let LINEARRANDOM = [[0, 3.0, 0], [ 5.0, 0, 1.0], [0, 7.0, 0]];///linear 2
+    'SLANTED', 'COOL01', 'COOL02', 'COOL03', 'COOL04', 'COOL05', 'COOL06', 'CHRIS', 'STRUCTURE'];
+  let STEINBERG = [[0.0, 0.0, 0.0], [0.0, 0.0, 7.0], [3.0, 5.0, 1.0]]; //STEINBErg
+  let LINEARRANDOM = [[0, 3.0, 0], [5.0, 0, 1.0], [0, 7.0, 0]];///linear 2
   let FALSESTEINBERG = [[0, 0, 0], [0, 0, 3.0], [0, 3.0, 2.0]];///false seinberg factor 8 4
   let PARTIALBURKE = [[0, 0, 0], [0, 0, 8.0], [4.0, 8.0, 4.0]];//part of burke factor 32 // really nice at low  factor 3.9 and level 2
   let INVERTEDSTEINBERG = [[1.0, 5.0, 3.0], [7.0, 0, 0], [0, 0, 0]];//8
   let SLANTED = [[8.0, 0, 9.0], [3.0, 8.0, 2.0], [4.0, 0, 0]];//10
   let COOL01 = [[0, 5.0, 0], [0, 0, 1.0], [3.0, 0, 7.0]];///coool kernel 1
-  let COOL02 = [[0, 0, 0], [5.0, 0, 3.0], [ 7.0, 0, 0]];///cool 2 3
+  let COOL02 = [[0, 0, 0], [5.0, 0, 3.0], [7.0, 0, 0]];///cool 2 3
   let COOL03 = [[4.0, 9.0, 0.0], [6.0, 2.0, 9.0], [0, 3.0, 0]];//11
   let COOL04 = [[0, 0, 3.0], [8.0, 0, 4.0], [2.0, 6.0, 1.0]];//12
   let COOL05 = [[0.0, 9.0, 6.0], [9.0, 0.0, 6.0], [1.0, 6.0, 0.0]];//13
@@ -196,9 +199,9 @@ function initDitherKernels(){
   let CHRIS = [[0.0, 0.0, 1.0], [0.0, 0.0, 4.0], [7.0, 4.0, 2.0]];//15
   let STRUCTURE = [[1.0, 0, 0], [7.0, 0, 6.0], [0, 2.0, 0]];///really nice structure
   let kernels = [STEINBERG, LINEARRANDOM, FALSESTEINBERG, PARTIALBURKE, INVERTEDSTEINBERG,
-  SLANTED, COOL01, COOL02, COOL03, COOL04, COOL05, COOL06, CHRIS, STRUCTURE];
+    SLANTED, COOL01, COOL02, COOL03, COOL04, COOL05, COOL06, CHRIS, STRUCTURE];
   //creating the array with the kernels
-  for(let i = 0; i < kernels.length; i++){
+  for (let i = 0; i < kernels.length; i++) {
     let ditKer = new ditherKernel(kernelName[i], kernels[i]);
     ditherKernels.push(ditKer);
   }

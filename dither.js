@@ -14,6 +14,7 @@ class Dither {
 	}
 	initDither() {
 		this.ditheredImage = createImage(floor(this.w / this.PS), floor(this.h / this.PS));
+		console.log(this.ditheredImage);
 	}
 	getDither() {
 		return this.ditheredImage;
@@ -23,14 +24,15 @@ class Dither {
 		let i = 1;
 		for (let x = 0; x < 3; x++) {
 			for (let y = 0; y < 3; y++) {
-				document.getElementById('k' + i).value = theKernel[x][y];
+				document.getElementById('k' + i).value = this.kernel[x][y];
 				i++;
 			}
 		}
 	}
-	setPixelSize(val) {
-		if (val < 1) this.PS = 1;
-		else this.PS = Math.ceil(val);
+	setPixelSize() {
+		this.PS = parseInt(document.getElementById("pixSize").value);
+		this.generateDither();
+		console.log('pix')
 	}
 	setImageSize(_w, _h) {
 		this.w = _w;
@@ -38,7 +40,9 @@ class Dither {
 		this.initDither();
 		this.generateDither();
 	}
-	setColor(c1, c2) {
+	setColor() {
+		let c1 = floor(document.getElementById("color1").value);
+		let c2 = floor(document.getElementById("color2").value);
 		if (this.BW) {
 			this.col1 = color(c1) || color(255);
 			this.col2 = color(c2) || color(0);
@@ -48,34 +52,48 @@ class Dither {
 			this.col2 = color(c2, 255, 255) || color(255, 255, 0);
 			colorMode(RGB);
 		}
-	}
-	setRadiant(bool) {
-		this.radiant = bool;
 		this.generateDither();
 	}
-	setBW(bool) {
-		this.BW = bool;
+	setRadiant() {
+		this.radiant = !this.radiant;
+		this.generateDither();
+	}
+	setBW() {
+		this.BW = !this.BW;
 		this.setColor();
 		this.generateDither();
 	}
-	setFactor(val) {
-		this.factor = val;
+	setFactor() {
+		this.factor = parseFloat(document.getElementById('factor').value);
 		this.generateDither();
 	}
-	setKernel(k) {
-		this.kernel = k;
+	setKernel() {
+		let matrix = [];
+		let i = 1
+		for (let y = 0; y < 3; y++) {
+			matrix[y] = [];
+			for (let x = 0; x < 3; x++) {
+				let matrixVal = document.getElementById("k" + i).value;
+				if (isNaN(matrixVal) || matrixVal == '') matrixVal = floor(random(100));
+				else matrixVal = parseInt(matrixVal);
+				matrix[y][x] = matrixVal;
+				//matrix.push(matrixVal);
+				i++;
+			}
+		}
+		this.kernel = matrix;
 		this.generateDither();
 	}
-	show() {
-		image(this.ditheredImage, 0, 0);
-	}
+	// show() {
+	// 	image(this.ditheredImage, 0, 0);
+	// }
 
-	update(color1, color2, fac, theKernel, scalingFactor, isRadial) {
-		console.log(this.ditheredImage);
-		let img = this.gradient(color1, color2, isRadial);
-		this.ditheredImage = this.dither(img, fac, theKernel, this.PS);
+	// update(color1, color2, fac, theKernel, scalingFactor, isRadial) {
+	// 	console.log(this.ditheredImage);
+	// 	let img = this.gradient(color1, color2, isRadial);
+	// 	this.ditheredImage = this.dither(img, fac, theKernel, this.PS);
 
-	}
+	// }
 
 	saveImg(saveTxt) {
 		// saveTxt = this.sortAlphabets(saveTxt);
@@ -144,8 +162,6 @@ class Dither {
 				}
 			}
 		}
-
-
 		src.updatePixels();
 		src = this.nearestN(src);
 		return src;
@@ -162,6 +178,7 @@ class Dither {
 	nearestN(img) {
 		let destination;
 		destination = createImage(img.width * this.PS, img.height * this.PS);
+		console.log(destination);
 		destination.loadPixels();
 		//let a = [][];//a = new float [num][num];
 		for (let y = 0; y < img.height; y++) {
@@ -191,7 +208,7 @@ class Dither {
 	}
 
 	gradient() {
-		let img = createImage(this.w, this.h);
+		let img = createImage(floor(this.w / this.PS), floor(this.h / this.PS));
 		img.loadPixels();
 		let amp = 0
 		for (let x = 0; x < img.width; x++) {

@@ -9,9 +9,9 @@
     <script src="libraries/p5.js"></script>
     <script src="libraries/p5.dom.js"></script>
     <script src="libraries/p5.sound.js"></script>
+    <script src="dither.js"></script>
     <script src="sketch.js"></script>
     <script src="scripts.js"></script>
-    <script src="dither.js"></script>
     <link rel="stylesheet" href="style.css">
 </head>
 
@@ -22,10 +22,10 @@
         <button onclick="makeRadialGradient()">RADIAL</button>
     </div>
     <div class="sliders">
-        <input type="range" id="pixSize" style="width: 200px;" value="10" min="4" max="10" step="1" onchange="updateValue()">
-        <input type="range" id="color1" style="width: 200px;" value="10" min="0" max="255" step="1" onchange="updateValue()">
-        <input type="range" id="color2" style="width: 200px;" value="150" min="0" max="255" step="1" onchange="updateValue()">
-        <input type="range" id="factor" style="width: 200px;" value="16" min="-10" max="35" step="0.2" onchange="updateValue()">
+        <input type="range" id="pixSize" style="width: 200px;" value="10" min="4" max="10" step="1" onchange="dither.setPixelSize()">
+        <input type="range" id="color1" style="width: 200px;" value="10" min="0" max="255" step="1" onchange="dither.setColor()">
+        <input type="range" id="color2" style="width: 200px;" value="150" min="0" max="255" step="1" onchange="dither.setColor()">
+        <input type="range" id="factor" style="width: 200px;" value="16" min="-10" max="35" step="0.2" onchange="dither.setFactor()">
     </div>
     <div class="kernels">
         <select id="kernel" onchange="whichKernel()">
