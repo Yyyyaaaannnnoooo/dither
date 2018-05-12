@@ -1,5 +1,5 @@
 let source, big;
-let radialGrad = false, RG, isRG, startValue = 60 * 60 * 10, idleCounter = startValue, colorCount1, colorCount2, c1 = 155, c2 = 200;
+let radialGrad = false, RG, isRG, startValue = 60, idleCounter = startValue, colorCount1 = 1, colorCount2 = 1, c1 = 155, c2 = 200;
 let scaleFactor = 10, isBW = false, BW;
 let posX, posY, prevVal1, prevVal2, prevFac, prevLev, prevPixSize = 0;
 let posMouseX, posMouseY;
@@ -28,14 +28,14 @@ function setup() {
   colorCount1 = floor(random(3));
   colorCount2 = floor(random(3));
 }
-
+//ADD IDLE MODE!
 function draw() {
   image(dither.getDither(), 0, 0);
-  if (idleCounter <= 0) {
-    idleCounter = 0;
-    if (frameCount % 60 == 0) idleMode(colorCount1, colorCount2);
-  }
-  idleCounter--;
+  // if (idleCounter <= 0) {
+  //   idleCounter = 0;
+  //   if (frameCount % 60 == 0) idleMode(colorCount1, colorCount2);
+  // }
+  // idleCounter--;
 }
 function windowResized(){
   let w = floor(window.innerWidth / 10) * 10;
@@ -53,19 +53,9 @@ function idleMode(num1, num2) {
   //add random kernel
   //and let the timing be 10 min or check with boris
   console.log('idle')
-  scaleFactor = 10;
   c1 -= colorCount1;
   c2 += colorCount2;
-  if (isBW) {
-    col1 = color(c1 % 255);
-    col2 = color(c2 % 255);
-  } else {
-    colorMode(HSB);
-    col1 = color(c1 % 255, 100, 100);
-    col2 = color(c2 % 255, 100, 100);
-    colorMode(RGB);
-  }
-  generateDither();
+  dither.setColor(c1, c2);
 }
 
 function whichKernel() {
