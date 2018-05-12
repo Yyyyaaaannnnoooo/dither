@@ -43,7 +43,7 @@ function draw() {
 //save image function
 function saveImg() {
   let saveTxt = "I_❤️_DITHERS";
-  dither.saveImg(saveTxt, col1, col2, scaleFactor, fac, ker, radialGrad);
+  dither.saveImg(saveTxt);
 }
 
 function idleMode(num1, num2) {

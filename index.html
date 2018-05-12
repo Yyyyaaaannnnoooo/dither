@@ -16,50 +16,58 @@
 </head>
 
 <body bgcolor="#FFF" onload="setPosition()">
-    <div class="buttons">
-        <button onclick="saveImg()">SAVE</button>
-        <button onclick="dither.setBW()">BW</button>
-        <button onclick="dither.setRadiant()">RADIAL</button>
-    </div>
-    <div class="sliders">
-        <input type="range" id="pixSize" style="width: 200px;" value="10" min="4" max="10" step="1" onchange="dither.setPixelSize()">
-        <input type="range" id="color1" style="width: 200px;" value="10" min="0" max="255" step="1" onchange="dither.setColor()">
-        <input type="range" id="color2" style="width: 200px;" value="150" min="0" max="255" step="1" onchange="dither.setColor()">
-        <input type="range" id="factor" style="width: 200px;" value="16" min="-10" max="35" step="0.2" onchange="dither.setFactor()">
-    </div>
-    <div class="kernels">
-        <select id="kernel" onchange="whichKernel()">
-            <option value="STEINBERG" selected>FLOYD-STEINBERG</option>
-            <option value="LINEARRANDOM">LINEARRANDOM</option>
-            <option value="FALSESTEINBERG">FALSESTEINBERG</option>
-            <option value="PARTIALBURKE">PARTIALBURKE</option>
-            <option value="INVERTEDSTEINBERG">INVERTEDSTEINBERG</option>
-            <option value="SLANTED">SLANTED</option>
-            <option value="COOL01">COOL01</option>
-            <option value="COOL02">COOL02</option>
-            <option value="COOL03">COOL03</option>
-            <option value="COOL04">COOL04</option>
-            <option value="COOL05">COOL05</option>
-            <option value="COOL02">COOL06</option>
-            <option value="CHRIS">CHRIS</option>
-            <option value="STRUCTURE">STRUCTURE</option>
-        </select>
-    </div>
-    <div class="ditinput">
-        <input type="text" id="k1" onchange="dither.setKernel()">
-        <input type="text" id="k2" onchange="dither.setKernel()">
-        <input type="text" id="k3" onchange="dither.setKernel()">
+    <div class="menu">
+        <div class="buttons">
+            <button onclick="saveImg()">SAVE</button>
+            <button onclick="dither.setBW()">BW</button>
+            <button onclick="dither.setRadiant()">RADIAL</button>
+        </div>
         <br>
-        <input type="text" id="k4" onchange="dither.setKernel()">
-        <input type="text" id="k5" onchange="dither.setKernel()">
-        <input type="text" id="k6" onchange="dither.setKernel()">
         <br>
-        <input type="text" id="k7" onchange="dither.setKernel()">
-        <input type="text" id="k8" onchange="dither.setKernel()">
-        <input type="text" id="k9" onchange="dither.setKernel()">
-    </div>
-    <div class="info">
-        <button onclick="reveal()" class="infobtn">HOW?</button>
+        <div class="sliders">
+            <input type="range" id="pixSize" value="10" min="4" max="10" step="1" onchange="dither.setPixelSize()">
+            <br>
+            <input type="range" id="color1" value="10" min="0" max="255" step="1" onchange="dither.setColor()">
+            <br>
+            <input type="range" id="color2" value="150" min="0" max="255" step="1" onchange="dither.setColor()">
+            <br>
+            <input type="range" id="factor" value="16" min="-10" max="35" step="0.2" onchange="dither.setFactor()">
+        </div>
+        <div class="kernels">
+            <select id="kernel" onchange="whichKernel()">
+                <option value="STEINBERG" selected>FLOYD-STEINBERG</option>
+                <option value="LINEARRANDOM">LINEARRANDOM</option>
+                <option value="FALSESTEINBERG">FALSESTEINBERG</option>
+                <option value="PARTIALBURKE">PARTIALBURKE</option>
+                <option value="INVERTEDSTEINBERG">INVERTEDSTEINBERG</option>
+                <option value="SLANTED">SLANTED</option>
+                <option value="COOL01">COOL01</option>
+                <option value="COOL02">COOL02</option>
+                <option value="COOL03">COOL03</option>
+                <option value="COOL04">COOL04</option>
+                <option value="COOL05">COOL05</option>
+                <option value="COOL02">COOL06</option>
+                <option value="CHRIS">CHRIS</option>
+                <option value="STRUCTURE">STRUCTURE</option>
+            </select>
+        </div>
+        <br>
+        <div class="ditinput">
+            <input type="text" id="k1" onchange="dither.setKernel()">
+            <input type="text" id="k2" onchange="dither.setKernel()">
+            <input type="text" id="k3" onchange="dither.setKernel()">
+            <br>
+            <input type="text" id="k4" onchange="dither.setKernel()">
+            <input type="text" id="k5" onchange="dither.setKernel()">
+            <input type="text" id="k6" onchange="dither.setKernel()">
+            <br>
+            <input type="text" id="k7" onchange="dither.setKernel()">
+            <input type="text" id="k8" onchange="dither.setKernel()">
+            <input type="text" id="k9" onchange="dither.setKernel()">
+        </div>
+        <!-- <div class="info">
+            <button onclick="reveal()" class="infobtn">HOW?</button>
+        </div> -->
     </div>
     <div id="myInfo" class="info-content">
         <d>HI! YOU MIGHT WANT TO KNOW HOT TO OPERATE THIS WEBSITE?

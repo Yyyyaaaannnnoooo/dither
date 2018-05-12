@@ -97,15 +97,16 @@ body {
 .reveal {display:block;}
 /*class kernel*/
 .kernels{
-    position:fixed;
-    top: 195px;
+    position:relative;
+    width: max-content;
+    /* top: 195px; */
     left: 5px;
     background: #fff;
     color: #000;
     padding: 0px;
     font-family: Helvetica;
     font-weight: bolder;
-    font-size: 20px;
+    font-size: 15px;
     border: none;
     cursor: ne-resize;
     z-index: 1;
@@ -115,7 +116,7 @@ body {
 select {
     font-family: Helvetica;
     font-weight: bolder;
-    font-size: 20px;
+    font-size: 15px;
     padding-top: 3px;
     padding-right: 3px;
 }
@@ -161,32 +162,35 @@ option:hover{
 }
 /*styling input*/
 .ditinput{
-    position: fixed;
-    top: 290px;
+    position: relative;
+    /* top: 290px; */
     z-index: 1;
 }
 
 input{
-    position: relative;
-    width: 20px;
+    /* position: relative; */
     border: solid 3px #000;
     margin: 3px;
     height: 20px;
     background-color: #fff;
 }
+.ditinput input{
+    width: 20px;
+}
 /*styling buttons*/
 button{
     font-family: helvetica;
-    font-size: 20px;
+    font-size: 15px;
     font-weight: bolder;
     background-color: #fff;
     border: solid 3px #000;
     padding-top: 3px;
 }
-.sliders{
-    position: fixed;
-    width: 20%;
-    top: 40px;
+.sliders input{
+    position: relative;
+    width: 150px;
+    margin-left: 20px;
+    /* top: 40px; */
     z-index: 1;
 }
 .buttons{
