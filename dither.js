@@ -6,8 +6,8 @@ class Dither {
 		this.BW = false;
 		this.radiant = false;
 		this.factor = 16;
-		this.col1 = color(100, 20, 47);
-		this.col2 = color(55, 150, 20);
+		this.col1 = color(random(255), random(255), random(255));
+		this.col2 = color(random(255), random(255), random(255));
 		this.kernel = [[0.0, 0.0, 0.0], [0.0, 0.0, 7.0], [3.0, 5.0, 1.0]]; //STEINBERG
 		// this.srcImage = createImage(floor(this.w / this.PS), floor(this.h / this.PS));
 		this.initDither();
@@ -34,7 +34,7 @@ class Dither {
 		this.generateDither();
 		console.log('pix')
 	}
-	setImageSize(_w, _h) {
+	setSize(_w, _h) {
 		this.w = _w;
 		this.h = _h;
 		this.initDither();
@@ -88,23 +88,13 @@ class Dither {
 			return matrix;
 		}
 	}
-	// show() {
-	// 	image(this.ditheredImage, 0, 0);
-	// }
-
-	// update(color1, color2, fac, theKernel, scalingFactor, isRadial) {
-	// 	console.log(this.ditheredImage);
-	// 	let img = this.gradient(color1, color2, isRadial);
-	// 	this.ditheredImage = this.dither(img, fac, theKernel, this.PS);
-
-	// }
 
 	saveImg(saveTxt) {
 		// saveTxt = this.sortAlphabets(saveTxt);
 		//console.log('saveTxt');
 		let saveImage = createImage(floor(displayWidth / this.PS), floor(displayHeight / this.PS));
 		saveImage = this.dither(this.gradient(), this.factor, this.kernel);
-		save(saveImage, saveTxt + '.png');
+		saveImage.save(saveTxt, 'jpg');
 	}
 
 	sortAlphabets(text) {
@@ -182,7 +172,7 @@ class Dither {
 	nearestN(img) {
 		let destination;
 		destination = createImage(img.width * this.PS, img.height * this.PS);
-		console.log(destination);
+		// console.log(destination);
 		destination.loadPixels();
 		//let a = [][];//a = new float [num][num];
 		for (let y = 0; y < img.height; y++) {

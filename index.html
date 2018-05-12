@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="style.css">
 </head>
 
-<body bgcolor="#FFF" onload="setPosition()">
+<body bgcolor="#FFF">
     <div class="menu">
         <div class="buttons">
             <button onclick="saveImg()">SAVE</button>
@@ -33,6 +33,7 @@
             <br>
             <input type="range" id="factor" value="16" min="-10" max="35" step="0.2" onchange="dither.setFactor()">
         </div>
+        <br>
         <div class="kernels">
             <select id="kernel" onchange="whichKernel()">
                 <option value="STEINBERG" selected>FLOYD-STEINBERG</option>

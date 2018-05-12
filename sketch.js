@@ -1,5 +1,3 @@
-
-
 let source, big;
 let radialGrad = false, RG, isRG, startValue = 60 * 60 * 10, idleCounter = startValue, colorCount1, colorCount2, c1 = 155, c2 = 200;
 let scaleFactor = 10, isBW = false, BW;
@@ -26,7 +24,7 @@ function setup() {
   //image init 
 
   dither = new Dither();
-  updateValue();
+  dither.generateDither();
   colorCount1 = floor(random(3));
   colorCount2 = floor(random(3));
 }
@@ -39,7 +37,12 @@ function draw() {
   }
   idleCounter--;
 }
-
+function windowResized(){
+  let w = floor(window.innerWidth / 10) * 10;
+  let h = floor(window.innerHeight / 10) * 10;
+  resizeCanvas(w, h);
+  dither.setSize(w, h);
+}
 //save image function
 function saveImg() {
   let saveTxt = "I_❤️_DITHERS";
@@ -81,52 +84,6 @@ function whichKernel() {
   //console.log(answer);
 }
 
-// function generateDither(){
-//   //console.log(dither);
-//   dither.update(col1, col2, fac, ker, scaleFactor, radialGrad);
-//   dither.show();
-// }
-
-function updateValue() {
-  scaleFactor = floor(document.getElementById("pixSize").value);
-  let val1 = floor(document.getElementById("color1").value);
-  let val2 = floor(document.getElementById("color2").value);
-  dither.setColor(val1, val2);
-
-  if (isBW) {
-    col1 = color(val1);
-    col2 = color(val2);
-  } else {
-    colorMode(HSB);
-    col1 = color(val1, 100, 100);
-    col2 = color(val2, 100, 100);
-    colorMode(RGB);
-  }
-  fac = document.getElementById("factor").value;
-  dither.generateDither();
-  idleCounter = startValue;//reset the idlecounter to exit idleMode
-  colorCount1 = floor(random(3));
-  colorCount2 = floor(random(3));
-}
-
-function setPosition() {
-  let items = document.getElementsByClassName("ditinput");
-  for (let i = 0; i < items.length; i++) {
-    items[i].style.left = 10 + "px";
-  }
-  let sliders = document.getElementsByClassName("sliders");
-  for (let i = 0; i < sliders.length; i++) {
-    sliders[i].style.left = 10 + "px";
-  }
-  let elements = document.getElementsByClassName("kernels");
-  for (let i = 0; i < elements.length; i++) {
-    elements[i].style.left = 10 + "px";
-  }
-  let info = document.getElementsByClassName("infobtn");
-  for (let i = 0; i < info.length; i++) {
-    info[i].style.left = 15 + "px";
-  }
-}
 
 function ditherKernel(name, kernel) {
   this.Name = name;
