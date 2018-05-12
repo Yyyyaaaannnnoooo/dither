@@ -18,8 +18,8 @@
 <body bgcolor="#FFF" onload="setPosition()">
     <div class="buttons">
         <button onclick="saveImg()">SAVE</button>
-        <button onclick="blackAndWhite()">BW</button>
-        <button onclick="makeRadialGradient()">RADIAL</button>
+        <button onclick="dither.setBW()">BW</button>
+        <button onclick="dither.setRadiant()">RADIAL</button>
     </div>
     <div class="sliders">
         <input type="range" id="pixSize" style="width: 200px;" value="10" min="4" max="10" step="1" onchange="dither.setPixelSize()">
@@ -46,17 +46,17 @@
         </select>
     </div>
     <div class="ditinput">
-        <input type="text" id="k1" onchange="personalDither()">
-        <input type="text" id="k2" onchange="personalDither()">
-        <input type="text" id="k3" onchange="personalDither()">
+        <input type="text" id="k1" onchange="dither.setKernel()">
+        <input type="text" id="k2" onchange="dither.setKernel()">
+        <input type="text" id="k3" onchange="dither.setKernel()">
         <br>
-        <input type="text" id="k4" onchange="personalDither()">
-        <input type="text" id="k5" onchange="personalDither()">
-        <input type="text" id="k6" onchange="personalDither()">
+        <input type="text" id="k4" onchange="dither.setKernel()">
+        <input type="text" id="k5" onchange="dither.setKernel()">
+        <input type="text" id="k6" onchange="dither.setKernel()">
         <br>
-        <input type="text" id="k7" onchange="personalDither()">
-        <input type="text" id="k8" onchange="personalDither()">
-        <input type="text" id="k9" onchange="personalDither()">
+        <input type="text" id="k7" onchange="dither.setKernel()">
+        <input type="text" id="k8" onchange="dither.setKernel()">
+        <input type="text" id="k9" onchange="dither.setKernel()">
     </div>
     <div class="info">
         <button onclick="reveal()" class="infobtn">HOW?</button>
@@ -64,11 +64,11 @@
     <div id="myInfo" class="info-content">
         <d>HI! YOU MIGHT WANT TO KNOW HOT TO OPERATE THIS WEBSITE?
             <br>
-            <g>1. THE FIRST SLIDER DEFINES THE PIXEL SIZE. CLICK THE BUTTON "PIXEL SIZE" TO RECALCULATE THE IMAGE
+            <g>1. THE FIRST SLIDER DEFINES THE PIXEL SIZE.
                 <br>
                 <b>2. THE FOLLOWING TWO SLIDERS DEFINE THE UPPER AND LOWER COLOR OF THE IMAGE
                     <br>
-                    <m>3. THE FOURTH SLIDER DEFINES THE DITHER WEIGHT
+                    <m>3. THE FOURTH SLIDER DEFINES THE DITHER FACTOR
                         <br>
                         <c>5. FINALLY CHOOSE BETWEEN THE DIFFERENT DITHER ALGORITHMS IN THE DITHERS MENU
                             <br>

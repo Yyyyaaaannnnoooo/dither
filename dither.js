@@ -67,22 +67,26 @@ class Dither {
 		this.factor = parseFloat(document.getElementById('factor').value);
 		this.generateDither();
 	}
-	setKernel() {
-		let matrix = [];
-		let i = 1
-		for (let y = 0; y < 3; y++) {
-			matrix[y] = [];
-			for (let x = 0; x < 3; x++) {
-				let matrixVal = document.getElementById("k" + i).value;
-				if (isNaN(matrixVal) || matrixVal == '') matrixVal = floor(random(100));
-				else matrixVal = parseInt(matrixVal);
-				matrix[y][x] = matrixVal;
-				//matrix.push(matrixVal);
-				i++;
-			}
-		}
-		this.kernel = matrix;
+	setKernel(k) {
+		this.kernel = k || kernelFromInput();
 		this.generateDither();
+
+		function kernelFromInput() {
+			let matrix = [];
+			let i = 1
+			for (let y = 0; y < 3; y++) {
+				matrix[y] = [];
+				for (let x = 0; x < 3; x++) {
+					let matrixVal = document.getElementById("k" + i).value;
+					if (isNaN(matrixVal) || matrixVal == '') matrixVal = floor(random(100));
+					else matrixVal = parseInt(matrixVal);
+					matrix[y][x] = matrixVal;
+					//matrix.push(matrixVal);
+					i++;
+				}
+			}
+			return matrix;
+		}
 	}
 	// show() {
 	// 	image(this.ditheredImage, 0, 0);

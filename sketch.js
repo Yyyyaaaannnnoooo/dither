@@ -46,35 +46,6 @@ function saveImg() {
   dither.saveImg(saveTxt, col1, col2, scaleFactor, fac, ker, radialGrad);
 }
 
-function blackAndWhite() {
-  idleCounter = startValue;//reset the idlecounter to exit idleMode
-  colorCount1 = floor(random(3));
-  colorCount2 = floor(random(3));
-  isBW = !isBW;
-  let val1 = floor(document.getElementById("color1").value);
-  let val2 = floor(document.getElementById("color2").value);
-  console.log(val1, val2);
-  if (isBW) {
-    col1 = color(val1);
-    col2 = color(val2);
-  } else {
-    colorMode(HSB);
-    col1 = color(val1, 100, 100);
-    col2 = color(val2, 100, 100);
-    colorMode(RGB);
-  }
-  generateDither();
-}
-
-function makeRadialGradient() {
-  idleCounter = startValue;//reset the idlecounter to exit idleMode
-  colorCount1 = floor(random(3));
-  colorCount2 = floor(random(3));
-  radialGrad = !radialGrad;
-  dither.update(col1, col2, fac, ker, scaleFactor, radialGrad);
-  dither.show();
-}
-
 function idleMode(num1, num2) {
   //add random kernel
   //and let the timing be 10 min or check with boris
@@ -94,38 +65,19 @@ function idleMode(num1, num2) {
   generateDither();
 }
 
-function personalDither() {
-  console.log('go');
-  let matrix = [];
-  let i = 1
-  for (let y = 0; y < 3; y++) {
-    matrix[y] = [];
-    for (let x = 0; x < 3; x++) {
-      let matrixVal = document.getElementById("k" + i).value;
-      if (isNaN(matrixVal) || matrixVal == '') matrixVal = floor(random(100));
-      else matrixVal = parseInt(matrixVal);
-      matrix[y][x] = matrixVal;
-      //matrix.push(matrixVal);
-      i++;
-    }
-  }
-  ker = matrix;
-  generateDither();
-  //console.log(matrix);
-}
-
 function whichKernel() {
   let select = document.getElementById("kernel");
   let answer = select.options[select.selectedIndex].value;
+  let inputKernel;
   if (ditherKernels != null) {
     for (let i = 0; i < ditherKernels.length; i++) {
       if (answer == ditherKernels[i].Name) {
-        ker = ditherKernels[i].Kernel;
+        inputKernel = ditherKernels[i].Kernel;
         break;
       }
     }
   }
-  generateDither();
+  dither.setKernel(inputKernel);
   //console.log(answer);
 }
 
