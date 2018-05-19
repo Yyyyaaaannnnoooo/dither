@@ -14,13 +14,13 @@ class Dither {
 	}
 	initDither() {
 		this.ditheredImage = createImage(floor(this.w / this.PS), floor(this.h / this.PS));
-		console.log(this.ditheredImage);
 	}
 	getDither() {
 		return this.ditheredImage;
 	}
 	generateDither() {
 		this.ditheredImage = this.dither(this.gradient(), this.factor, this.kernel);
+		// here we set the value of the kernel in the main page that updates
 		let i = 1;
 		for (let x = 0; x < 3; x++) {
 			for (let y = 0; y < 3; y++) {
