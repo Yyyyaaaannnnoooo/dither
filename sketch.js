@@ -1,5 +1,5 @@
 
-const PIXEL_SIZE = 10;
+const PIXEL_SIZE = 5;
 
 let ker = [];
 let fac = 16, lev = 1;
@@ -14,7 +14,7 @@ initDitherKernels();
 function preload() {
   // load the shader
   uniformsShader = loadShader('vertex.vert', 'drip.frag');
-  pg = createGraphics(floor(windowWidth / PIXEL_SIZE), floor(windowHeight / PIXEL_SIZE), WEBGL);
+  pg = createGraphics(floor(innerWidth / PIXEL_SIZE), floor(innerHeight / PIXEL_SIZE), WEBGL);
 }
 
 function setup() {
@@ -32,34 +32,41 @@ function setup() {
 }
 //ADD IDLE MODE!
 function draw() {
-  pg.shader(uniformsShader);
-  // shader(uniformsShader);
-  let mx = map(mouseX, 0, width, 0, 1);
-  let my = map(mouseY, 0, height, 0, 1);
-  // image(pg, 0, 0);
-  // lets just send frameCount to the shader as a way to control animation over time
-  uniformsShader.setUniform('u_time', millis() / 1000);
-  // // uniformsShader.setUniform('u_mouse', [mx, my]);
-  uniformsShader.setUniform('u_resolution', [pg.width, pg.height]);
-  //drip uniforms
-  uniformsShader.setUniform('intense', 0.5);
-  uniformsShader.setUniform('speed', 1.0);
-  uniformsShader.setUniform('graininess', [mx, my]);
-  uniformsShader.setUniform('u_mouse1', returnRGBcolor()[0]);
-  uniformsShader.setUniform('u_mouse2', returnRGBcolor()[1]);
-  // rect gives us some geometry on the screen
-  //set the shader on arect in the graphics
-  pg.rect(0, 0, pg.width, pg.height);
+  if (dither.isShader) {
+    pg.shader(uniformsShader);
+    // shader(uniformsShader);
+    let mx = map(mouseX, 0, width, 0, 1);
+    let my = map(mouseY, 0, height, 0, 1);
+    // image(pg, 0, 0);
+    // lets just send frameCount to the shader as a way to control animation over time
+    uniformsShader.setUniform('u_time', millis() / 1000);
+    // // uniformsShader.setUniform('u_mouse', [mx, my]);
+    uniformsShader.setUniform('u_resolution', [pg.width, pg.height]);
+    //drip uniforms
+    uniformsShader.setUniform('intense', 0.5);
+    uniformsShader.setUniform('speed', 1.0);
+    uniformsShader.setUniform('graininess', [mx, my]);
+    uniformsShader.setUniform('u_mouse1', returnRGBcolor()[0]);
+    uniformsShader.setUniform('u_mouse2', returnRGBcolor()[1]);
+    // rect gives us some geometry on the screen
+    //set the shader on arect in the graphics
+    pg.rect(0, 0, pg.width, pg.height);
+    dither.generateDither();
+  }
   image(dither.getDither(), 0, 0);
+}
 
-  // rect(0, 0, width, height);
-
+function setShader() {
+  dither.isShader = !dither.isShader;
   dither.generateDither();
 }
-function windowResized(){
+
+function windowResized() {
   let w = floor(window.innerWidth / 10) * 10;
   let h = floor(window.innerHeight / 10) * 10;
   resizeCanvas(w, h);
+  // pg.resize(floor(innerWidth / PIXEL_SIZE), floor(innerHeight / PIXEL_SIZE));
+  // pg = createGraphics(floor(innerWidth / PIXEL_SIZE), floor(innerHeight / PIXEL_SIZE), WEBGL);
   dither.setSize(w, h);
 }
 //save image function
@@ -118,11 +125,10 @@ function initDitherKernels() {
 }
 
 function returnRGBcolor() {
-  let result = [];
   let color1 = [];
   let color2 = [];
-  let x = map(mouseX, 0, width, 0, 255);
-  let y = map(mouseY, 0, height, 0, 255);
+  let x = document.getElementById('color1').value;
+  let y = document.getElementById('color2').value;
   colorMode(HSB);
   let col1 = color(x, 255, 255);
   let col2 = color(y, 255, 255);

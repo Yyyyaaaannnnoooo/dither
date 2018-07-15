@@ -12,6 +12,8 @@ class Dither {
 		this.kernel = [[0.0, 0.0, 0.0], [0.0, 0.0, 7.0], [3.0, 5.0, 1.0]]; //STEINBERG
 		// this.srcImage = createImage(floor(this.w / this.PS), floor(this.h / this.PS));
 		this.initDither();
+		this.setHTMLBoxes();
+
 	}
 	initDither() {
 		this.ditheredImage = createImage(floor(this.w / this.PS), floor(this.h / this.PS));
@@ -21,19 +23,10 @@ class Dither {
 	}
 	generateDither() {
 		this.ditheredImage = this.dither(this.gradient(this.isShader), this.factor, this.kernel);
-		// here we set the value of the kernel in the main page that updates
-		let i = 1;
-		for (let x = 0; x < 3; x++) {
-			for (let y = 0; y < 3; y++) {
-				document.getElementById('k' + i).value = this.kernel[x][y];
-				i++;
-			}
-		}
 	}
 	setPixelSize() {
-		this.PS = parseInt(document.getElementById("pixSize").value);
+		this.PS = this.isShader ? PIXEL_SIZE : parseInt(document.getElementById("pixSize").value);
 		this.generateDither();
-		console.log('pix')
 	}
 	setSize(_w, _h) {
 		this.w = _w;
@@ -71,7 +64,7 @@ class Dither {
 	setKernel(k) {
 		this.kernel = k || kernelFromInput();
 		this.generateDither();
-
+		this.setHTMLBoxes();
 		function kernelFromInput() {
 			let matrix = [];
 			let i = 1
@@ -89,7 +82,16 @@ class Dither {
 			return matrix;
 		}
 	}
-
+	setHTMLBoxes() {
+		// here we set the value of the kernel in the main page that updates
+		let i = 1;
+		for (let x = 0; x < 3; x++) {
+			for (let y = 0; y < 3; y++) {
+				document.getElementById('k' + i).value = this.kernel[x][y];
+				i++;
+			}
+		}
+	}
 	saveImg(saveTxt) {
 		// saveTxt = this.sortAlphabets(saveTxt);
 		//console.log('saveTxt');
@@ -209,17 +211,8 @@ class Dither {
 			pg.loadPixels();
 			// console.log(pg.pixels);
 			for (let i = 0; i < img.pixels.length; i++) {
-				let index = 4 * i;
 				img.pixels[i] = pg.pixels[i];
-				// let col = pg.pixels[index];
-				// img.pixels[index] = col;
-				// img.pixels[index + 1] = col;
-				// img.pixels[index + 2] = col;
-				// img.pixels[index + 3] = 255;
 			}
-			// img = pg.get(0, 0, pg.width, pg.height);
-			// img = pg;
-			// image(img, 0, 0);
 			img.updatePixels();
 			return img;
 		} else {
