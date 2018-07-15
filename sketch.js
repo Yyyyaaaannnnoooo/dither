@@ -116,3 +116,25 @@ function initDitherKernels() {
   }
   ker = STEINBERG;
 }
+
+function returnRGBcolor() {
+  let result = [];
+  let color1 = [];
+  let color2 = [];
+  let x = map(mouseX, 0, width, 0, 255);
+  let y = map(mouseY, 0, height, 0, 255);
+  colorMode(HSB);
+  let col1 = color(x, 255, 255);
+  let col2 = color(y, 255, 255);
+
+  color1[0] = map(red(col1), 0, 255, 0, 1);
+  color1[1] = map(green(col1), 0, 255, 0, 1);
+  color1[2] = map(blue(col1), 0, 255, 0, 1);
+
+  color2[0] = map(red(col2), 0, 255, 0, 1);
+  color2[1] = map(green(col2), 0, 255, 0, 1);
+  color2[2] = map(blue(col2), 0, 255, 0, 1);
+
+  colorMode(RGB);
+  return [color1, color2];
+}

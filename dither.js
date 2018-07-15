@@ -5,6 +5,7 @@ class Dither {
 		this.PS = PIXEL_SIZE;//pixel Size
 		this.BW = false;
 		this.radiant = false;
+		this.isShader = false;
 		this.factor = 16;
 		this.col1 = color(random(255), random(255), random(255));
 		this.col2 = color(random(255), random(255), random(255));
@@ -19,7 +20,7 @@ class Dither {
 		return this.ditheredImage;
 	}
 	generateDither() {
-		this.ditheredImage = this.dither(this.gradient(), this.factor, this.kernel);
+		this.ditheredImage = this.dither(this.gradient(this.isShader), this.factor, this.kernel);
 		// here we set the value of the kernel in the main page that updates
 		let i = 1;
 		for (let x = 0; x < 3; x++) {
@@ -201,28 +202,49 @@ class Dither {
 		return destination;
 	}
 
-	gradient() {
-		let img = createImage(floor(this.w / this.PS), floor(this.h / this.PS));
-		img.loadPixels();
-		let amp = 0
-		for (let x = 0; x < img.width; x++) {
-			for (let y = 0; y < img.height; y++) {
-				let index = 4 * (y * img.width + x);
-				if (this.radiant) {
-					let d = dist(x, y, img.width / 2, img.height / 2);
-					amp = map(d, 0, img.width / 2, 0, 1);
-				} else {
-					amp = map(index, 0, img.width * img.height * 4, 0, 1);
-				}
-				var col = lerpColor(this.col2, this.col1, amp);
-				img.pixels[index] = red(col);
-				img.pixels[index + 1] = green(col);
-				img.pixels[index + 2] = blue(col);
-				img.pixels[index + 3] = 255;
+	gradient(bool) {
+		if (bool) {
+			let img = createImage(pg.width, pg.height);
+			img.loadPixels();
+			pg.loadPixels();
+			// console.log(pg.pixels);
+			for (let i = 0; i < img.pixels.length; i++) {
+				let index = 4 * i;
+				img.pixels[i] = pg.pixels[i];
+				// let col = pg.pixels[index];
+				// img.pixels[index] = col;
+				// img.pixels[index + 1] = col;
+				// img.pixels[index + 2] = col;
+				// img.pixels[index + 3] = 255;
 			}
+			// img = pg.get(0, 0, pg.width, pg.height);
+			// img = pg;
+			// image(img, 0, 0);
+			img.updatePixels();
+			return img;
+		} else {
+			let img = createImage(floor(this.w / this.PS), floor(this.h / this.PS));
+			img.loadPixels();
+			let amp = 0
+			for (let x = 0; x < img.width; x++) {
+				for (let y = 0; y < img.height; y++) {
+					let index = 4 * (y * img.width + x);
+					if (this.radiant) {
+						let d = dist(x, y, img.width / 2, img.height / 2);
+						amp = map(d, 0, img.width / 2, 0, 1);
+					} else {
+						amp = map(index, 0, img.width * img.height * 4, 0, 1);
+					}
+					var col = lerpColor(this.col2, this.col1, amp);
+					img.pixels[index] = red(col);
+					img.pixels[index + 1] = green(col);
+					img.pixels[index + 2] = blue(col);
+					img.pixels[index + 3] = 255;
+				}
+			}
+			img.updatePixels();
+			return img;
 		}
-		img.updatePixels();
-		return img;
 	}
 }
 
