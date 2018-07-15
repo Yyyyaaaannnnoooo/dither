@@ -14,7 +14,7 @@ uniform vec3 u_mouse1;
 uniform vec3 u_mouse2;
 
 const float offset = 20.0;
-const int complexity = 8;
+const int complexity = 15;
 const float Pi = 3.14159;
 
 void main()
