@@ -25,7 +25,7 @@ class Dither {
 		this.ditheredImage = this.dither(this.gradient(this.isShader), this.factor, this.kernel);
 	}
 	setPixelSize() {
-		this.PS = this.isShader ? PIXEL_SIZE : parseInt(document.getElementById("pixSize").value);
+		this.PS = parseInt(document.getElementById("pixSize").value);
 		this.generateDither();
 	}
 	setSize(_w, _h) {
@@ -173,8 +173,9 @@ class Dither {
 	}
 	//enlarging the Pixel
 	nearestN(img) {
+		const pixelSize = this.isShader == true ? PIXEL_SIZE : parseInt(document.getElementById("pixSize").value);
 		let destination;
-		destination = createImage(img.width * this.PS, img.height * this.PS);
+		destination = createImage(img.width * pixelSize, img.height * pixelSize);
 		// console.log(destination);
 		destination.loadPixels();
 		//let a = [][];//a = new float [num][num];
@@ -184,11 +185,11 @@ class Dither {
 				for (let i = 0; i < d; i++) {
 					for (let j = 0; j < d; j++) {
 						let index1 = 4 * ((y * d + j) * (img.width * d) + (x * d + i));
-						let nX = x * this.PS;
-						let nY = y * this.PS;
+						let nX = x * pixelSize;
+						let nY = y * pixelSize;
 						//kernel loop//
-						for (let yy = 0; yy < this.PS; yy++) {
-							for (let xx = 0; xx < this.PS; xx++) {
+						for (let yy = 0; yy < pixelSize; yy++) {
+							for (let xx = 0; xx < pixelSize; xx++) {
 								let index2 = 4 * ((nX + xx) + destination.width * (nY + yy));//improve with pixel density for retina displays
 								destination.pixels[index2] = img.pixels[index1];//red
 								destination.pixels[index2 + 1] = img.pixels[index1 + 1];//grenn
