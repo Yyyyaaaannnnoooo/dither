@@ -1,4 +1,5 @@
-// #define PROCESSING_COLOR_SHADER
+// Shader by Gene Kogan
+// https://github.com/genekogan/Processing-Shader-Examples
 
 #ifdef GL_ES
 precision mediump float;
