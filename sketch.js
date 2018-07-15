@@ -1,17 +1,21 @@
-let source, big;
-let radialGrad = false, RG, isRG, startValue = 60, idleCounter = startValue, colorCount1 = 1, colorCount2 = 1, c1 = 155, c2 = 200;
-let scaleFactor = 10, isBW = false, BW;
-let posX, posY, prevVal1, prevVal2, prevFac, prevLev, prevPixSize = 0;
-let posMouseX, posMouseY;
-let input, button, saveTxt, changeKernel, genDither, slider1, slider2, pixSize, slidFac, slidLev;
+
+const PIXEL_SIZE = 10;
+
 let ker = [];
 let fac = 16, lev = 1;
 let ditherKernels = [];
 
+let uniformsShader;
+let pg;
+
 let dither;
-let childDither = false;
 
 initDitherKernels();
+function preload() {
+  // load the shader
+  uniformsShader = loadShader('vertex.vert', 'drip.frag');
+  pg = createGraphics(floor(windowWidth / PIXEL_SIZE), floor(windowHeight / PIXEL_SIZE), WEBGL);
+}
 
 function setup() {
   pixelDensity(1);
@@ -25,17 +29,32 @@ function setup() {
 
   dither = new Dither();
   dither.generateDither();
-  colorCount1 = floor(random(3));
-  colorCount2 = floor(random(3));
 }
 //ADD IDLE MODE!
 function draw() {
+  pg.shader(uniformsShader);
+  // shader(uniformsShader);
+  let mx = map(mouseX, 0, width, 0, 1);
+  let my = map(mouseY, 0, height, 0, 1);
+  // image(pg, 0, 0);
+  // lets just send frameCount to the shader as a way to control animation over time
+  uniformsShader.setUniform('u_time', millis() / 1000);
+  // // uniformsShader.setUniform('u_mouse', [mx, my]);
+  uniformsShader.setUniform('u_resolution', [pg.width, pg.height]);
+  //drip uniforms
+  uniformsShader.setUniform('intense', 0.5);
+  uniformsShader.setUniform('speed', 1.0);
+  uniformsShader.setUniform('graininess', [mx, my]);
+  uniformsShader.setUniform('u_mouse1', returnRGBcolor()[0]);
+  uniformsShader.setUniform('u_mouse2', returnRGBcolor()[1]);
+  // rect gives us some geometry on the screen
+  //set the shader on arect in the graphics
+  pg.rect(0, 0, pg.width, pg.height);
   image(dither.getDither(), 0, 0);
-  // if (idleCounter <= 0) {
-  //   idleCounter = 0;
-  //   if (frameCount % 60 == 0) idleMode(colorCount1, colorCount2);
-  // }
-  // idleCounter--;
+
+  // rect(0, 0, width, height);
+
+  dither.generateDither();
 }
 function windowResized(){
   let w = floor(window.innerWidth / 10) * 10;
@@ -47,15 +66,6 @@ function windowResized(){
 function saveImg() {
   let saveTxt = "I_❤️_DITHERS";
   dither.saveImg(saveTxt);
-}
-
-function idleMode(num1, num2) {
-  //add random kernel
-  //and let the timing be 10 min or check with boris
-  console.log('idle')
-  c1 -= colorCount1;
-  c2 += colorCount2;
-  dither.setColor(c1, c2);
 }
 
 function whichKernel() {

@@ -2,7 +2,7 @@ class Dither {
 	constructor() {
 		this.w = width;
 		this.h = height;
-		this.PS = 10;//pixel Size
+		this.PS = PIXEL_SIZE;//pixel Size
 		this.BW = false;
 		this.radiant = false;
 		this.factor = 16;
