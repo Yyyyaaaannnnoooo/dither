@@ -11,6 +11,7 @@
 * **Button** [SAVE]: save the current dithered image
 * **Button** [BW]: change from color to black and white
 * **Button** [RADIAL]: change from linear to radial gradient
+* **Button** [SHADER]: use a shader as basis for the dither (shader by [Gene Kogan](https://github.com/genekogan/Processing-Shader-Examples))
 * **Slider 1**: set the pixel size
 * **Slider 2**: set the first color of the gradient
 * **Slider 3**: set the second color of the gradient

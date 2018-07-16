@@ -2,8 +2,11 @@
 const PIXEL_SIZE = 5;
 
 let ker = [];
-let fac = 16, lev = 1;
+let fac = 16;
+let lev = 1;
 let ditherKernels = [];
+
+let isBW = false;
 
 let uniformsShader;
 let pg;
@@ -60,7 +63,10 @@ function setShader() {
   dither.isShader = !dither.isShader;
   dither.generateDither();
 }
-
+function BW() {
+  isBW = !isBW;
+  dither.setBW();
+}
 function windowResized() {
   let w = floor(window.innerWidth / 10) * 10;
   let h = floor(window.innerHeight / 10) * 10;
@@ -123,24 +129,40 @@ function initDitherKernels() {
   }
   ker = STEINBERG;
 }
-
+/**
+ * @returns an array of colors to be used as vec3 uniform in the shader
+ */
 function returnRGBcolor() {
   let color1 = [];
   let color2 = [];
   let x = document.getElementById('color1').value;
   let y = document.getElementById('color2').value;
-  colorMode(HSB);
-  let col1 = color(x, 255, 255);
-  let col2 = color(y, 255, 255);
+  if (!isBW) {
+    // if is color mode
+    colorMode(HSB);
 
-  color1[0] = map(red(col1), 0, 255, 0, 1);
-  color1[1] = map(green(col1), 0, 255, 0, 1);
-  color1[2] = map(blue(col1), 0, 255, 0, 1);
+    let col1 = color(x, 255, 255);
+    let col2 = color(y, 255, 255);
 
-  color2[0] = map(red(col2), 0, 255, 0, 1);
-  color2[1] = map(green(col2), 0, 255, 0, 1);
-  color2[2] = map(blue(col2), 0, 255, 0, 1);
+    color1[0] = map(red(col1), 0, 255, 0, 1);
+    color1[1] = map(green(col1), 0, 255, 0, 1);
+    color1[2] = map(blue(col1), 0, 255, 0, 1);
 
-  colorMode(RGB);
+    color2[0] = map(red(col2), 0, 255, 0, 1);
+    color2[1] = map(green(col2), 0, 255, 0, 1);
+    color2[2] = map(blue(col2), 0, 255, 0, 1);
+
+    colorMode(RGB);
+  } else {
+    // else is it is in BW
+    color1[0] = map(red(x), 0, 255, 0, 1);
+    color1[1] = map(green(x), 0, 255, 0, 1);
+    color1[2] = map(blue(x), 0, 255, 0, 1);
+
+    color2[0] = map(red(y), 0, 255, 0, 1);
+    color2[1] = map(green(y), 0, 255, 0, 1);
+    color2[2] = map(blue(y), 0, 255, 0, 1);
+
+  }
   return [color1, color2];
 }
