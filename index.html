@@ -26,13 +26,13 @@
         <br>
         <br>
         <div class="sliders">
-            <input type="range" id="pixSize" value="10" min="4" max="10" step="1" onchange="dither.setPixelSize()">
+            <!-- <input type="range" id="pixSize" value="10" min="4" max="10" step="1" oninput="dither.setPixelSize()">
+            <br> -->
+            <input type="range" id="color1" value="10" min="0" max="255" step="1" oninput="dither.setColor()">
             <br>
-            <input type="range" id="color1" value="10" min="0" max="255" step="1" onchange="dither.setColor()">
+            <input type="range" id="color2" value="150" min="0" max="255" step="1" oninput="dither.setColor()">
             <br>
-            <input type="range" id="color2" value="150" min="0" max="255" step="1" onchange="dither.setColor()">
-            <br>
-            <input type="range" id="factor" value="16" min="-10" max="35" step="0.2" onchange="dither.setFactor()">
+            <input type="range" id="factor" value="16" min="-10" max="35" step="0.2" oninput="dither.setFactor()">
         </div>
         <br>
         <div class="kernels">
