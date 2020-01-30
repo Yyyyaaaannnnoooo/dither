@@ -173,7 +173,7 @@ class Dither {
 	}
 	//enlarging the Pixel
 	nearestN(img) {
-		const pixelSize = this.isShader == true ? PIXEL_SIZE : parseInt(document.getElementById("pixSize").value);
+		const pixelSize = PIXEL_SIZE;
 		let destination;
 		destination = createImage(img.width * pixelSize, img.height * pixelSize);
 		// console.log(destination);
