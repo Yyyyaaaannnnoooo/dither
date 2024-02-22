@@ -1,4 +1,4 @@
-# [Dithering WEB app](http://yyyyyyyy.xyz/dither/)
+# [Dithering WEB app](https://yano.squatted.online/dither/)
 
 > Dithering algorithms are used to give the illusion of color depth when the color palette of an image needs to be reduced. The error diffusion used in the dithering algorithm *“[adds] the residual quantization error of a pixel onto is neighboring pixels […]”.* A well-dithered image is the one where the algorithm remains unnoticed. The best performances are reached when the algorithm has hidden himself from the viewer. When the algorithm is applied to gradients its camouflage quality gets weaker revealing itself to the viewer’s eyes. Every single pixel of the image is the result of the calculations of the dither, in a way that when you are looking at a dithered gradient you’re looking at the algorithm itself.
 
