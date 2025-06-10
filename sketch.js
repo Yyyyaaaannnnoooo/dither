@@ -1,5 +1,5 @@
 
-const PIXEL_SIZE = 10;
+const PIXEL_SIZE = 2;
 
 let ker = [];
 let fac = 16;
