@@ -1,5 +1,19 @@
+function is_mobile() {
+  return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+    navigator.userAgent
+  );
+}
 
-const PIXEL_SIZE = 10;
+let H = window.innerHeight;
+let PIXEL_SIZE = 5;
+
+if (is_mobile()) {
+  console.log('is mobile');
+  open_close_side_menu()
+  side_menu.style.visibility = 'hidden'
+  // H = window.innerHeight - 44
+  PIXEL_SIZE = 10
+}
 
 let ker = [];
 let fac = 16;
@@ -12,19 +26,61 @@ let uniformsShader;
 let pg;
 
 let dither;
+const cameras = []
+let cam;
 
 initDitherKernels();
+
+// function get_random_position(range) {
+//   return range + Math.floor(Math.random() * range);
+// }
+
+// function distance(x1, y1, x2, y2) {
+//   return Math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2);
+// }
+
+// function is_overlapping(x, y, positions, min_distance) {
+//   for (let i = 0; i < positions.length; i++) {
+//       if (distance(x, y, positions[i].x, positions[i].y) < min_distance) {
+//           return true;
+//       }
+//   }
+//   return false;
+// }
+
+// function generate_non_overlapping_positions(count, range_x, range_y, min_distance) {
+//   const positions = [];
+//   while (positions.length < count) {
+//       const x = get_random_position(range_x);
+//       const y = get_random_position(range_y);
+//       if (!is_overlapping(x, y, positions, min_distance)) {
+//           positions.push({ x, y });
+//       }
+//   }
+//   return positions;
+// }
+
+// const count = 5;
+// const range_x = 5 * window.innerWidth; // Define the range within which to generate x positions
+// const range_y = 5 * window.innerHeight; // Define the range within which to generate y positions
+// const min_distance = 100; // Minimum distance between positions
+
+// const positions = generate_non_overlapping_positions(count, range_x, range_y, min_distance);
+// console.log(positions);
+
+
+
 function preload() {
   // load the shader
   uniformsShader = loadShader('vertex.vert', 'drip.frag');
-  pg = createGraphics(floor(innerWidth / PIXEL_SIZE), floor(innerHeight / PIXEL_SIZE), WEBGL);
+  pg = createGraphics(floor(window.innerWidth / PIXEL_SIZE), floor(H / PIXEL_SIZE), WEBGL);
 }
 
 function setup() {
   pixelDensity(1);
-  let w = floor(window.innerWidth / 10) * 10;
-  let h = floor(window.innerHeight / 10) * 10;
-  let cnv = createCanvas(w, h);
+  let w = floor(window.innerWidth / PIXEL_SIZE) * PIXEL_SIZE;
+  let h = floor(H / PIXEL_SIZE) * PIXEL_SIZE;
+  let cnv = createCanvas(w, h, WEBGL);
   posX = abs((window.innerWidth / 2) - (width / 2));
   posY = 0;
   cnv.position(posX, posY);
@@ -32,9 +88,16 @@ function setup() {
 
   dither = new Dither();
   dither.generateDither();
+  cam = createCamera();
+  setCamera(cam);
+  noStroke()
+  if (is_mobile()) {
+    BW()
+  }
 }
 //ADD IDLE MODE!
 function draw() {
+  // orbitControl()
   if (dither.isShader) {
     pg.shader(uniformsShader);
     // shader(uniformsShader);
@@ -56,7 +119,39 @@ function draw() {
     pg.rect(0, 0, pg.width, pg.height);
     dither.generateDither();
   }
-  image(dither.getDither(), 0, 0);
+  // image(dither.getDither(), -width/2, -height/2);
+  texture(dither.getDither())
+  push()
+  translate(0, 0, 500)
+  rotateX(PI)
+  box(width * 0.75, height * 0.75, 1000)
+  pop()
+  push()
+  translate(0, 0, 500)
+  rotateX(PI + (frameCount * 0.01))
+  rotateY((frameCount * 0.027))
+  if (is_mobile()) {
+    sphere(width * 0.125)
+  } else {
+    sphere(width * 0.05)
+  }
+  pop()
+  cam.lookAt(cam_vision().x, cam_vision().y, 0)
+}
+
+function mouseClicked() {
+  if (is_mobile()) {
+    dither.setColorMouse(mouseX, mouseY)
+  }
+
+}
+
+function cam_vision() {
+  const w = width / 2;
+  const h = height / 2;
+  const x = (mouseX - w) / 2
+  const y = (mouseY - h) / 2
+  return { x, y }
 }
 
 function setShader() {
@@ -68,8 +163,8 @@ function BW() {
   dither.setBW();
 }
 function windowResized() {
-  let w = floor(window.innerWidth / 10) * 10;
-  let h = floor(window.innerHeight / 10) * 10;
+  let w = floor(window.innerWidth / PIXEL_SIZE) * PIXEL_SIZE;
+  let h = floor(H / PIXEL_SIZE) * PIXEL_SIZE;
   resizeCanvas(w, h);
   // pg.resize(floor(innerWidth / PIXEL_SIZE), floor(innerHeight / PIXEL_SIZE));
   // pg = createGraphics(floor(innerWidth / PIXEL_SIZE), floor(innerHeight / PIXEL_SIZE), WEBGL);

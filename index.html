@@ -3,101 +3,106 @@
 <html>
 
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DITHER</title>
-    <script src="libraries/p5.js"></script>
-    <script src="libraries/p5.dom.js"></script>
-    <script src="libraries/p5.sound.js"></script>
-    <script src="dither.js"></script>
-    <script src="sketch.js"></script>
-    <script src="scripts.js"></script>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DITHER</title>
+  <script src="libraries/p5.min.js"></script>
+  <!-- <script src="libraries/p5.dom.js"></script> -->
+  <!-- <script src="libraries/p5.sound.js"></script> -->
+  <script src="dither.js" defer></script>
+  <script src="scripts.js" defer></script>
+  <script src="sketch.js" defer></script>
+  <link rel="stylesheet" href="style.css">
 </head>
 
-<body bgcolor="#FFF">
-    <div class="menu">
-        <div class="buttons">
-            <button onclick="saveImg()">SAVE</button>
-            <button onclick="dither.setBW()">BW</button>
-            <button onclick="dither.setRadiant()">RADIAL</button>
-            <button onclick="setShader()">SHADER</button>
-        </div>
-        <br>
-        <br>
-        <div class="sliders">
-            <!-- <input type="range" id="pixSize" value="10" min="4" max="10" step="1" oninput="dither.setPixelSize()">
+<body bgcolor="#000">
+  <div class="side-menu">
+    <div class="pull">
+      <p>
+        ←
+      </p>
+    </div>
+    <div class="buttons">
+      <button onclick="saveImg()">SAVE</button>
+      <button onclick="dither.setBW()">BW</button>
+      <button onclick="dither.setRadiant()">RADIAL</button>
+      <button onclick="setShader()">SHADER</button>
+    </div>
+    <br>
+    <br>
+    <div class="sliders">
+      <!-- <input type="range" id="pixSize" value="10" min="4" max="10" step="1" oninput="dither.setPixelSize()">
             <br> -->
-            <input type="range" id="color1" value="10" min="0" max="255" step="1" oninput="dither.setColor()">
-            <br>
-            <input type="range" id="color2" value="150" min="0" max="255" step="1" oninput="dither.setColor()">
-            <br>
-            <input type="range" id="factor" value="16" min="-10" max="35" step="0.2" oninput="dither.setFactor()">
-        </div>
-        <br>
-        <div class="kernels">
-            <select id="kernel" onchange="whichKernel()">
-                <option value="STEINBERG" selected>FLOYD-STEINBERG</option>
-                <option value="LINEARRANDOM">LINEARRANDOM</option>
-                <option value="FALSESTEINBERG">FALSESTEINBERG</option>
-                <option value="PARTIALBURKE">PARTIALBURKE</option>
-                <option value="INVERTEDSTEINBERG">INVERTEDSTEINBERG</option>
-                <option value="SLANTED">SLANTED</option>
-                <option value="COOL01">COOL01</option>
-                <option value="COOL02">COOL02</option>
-                <option value="COOL03">COOL03</option>
-                <option value="COOL04">COOL04</option>
-                <option value="COOL05">COOL05</option>
-                <option value="COOL02">COOL06</option>
-                <option value="CHRIS">CHRIS</option>
-                <option value="STRUCTURE">STRUCTURE</option>
-            </select>
-        </div>
-        <br>
-        <div class="ditinput">
-            <input type="text" id="k1" onchange="dither.setKernel()">
-            <input type="text" id="k2" onchange="dither.setKernel()">
-            <input type="text" id="k3" onchange="dither.setKernel()">
-            <br>
-            <input type="text" id="k4" onchange="dither.setKernel()">
-            <input type="text" id="k5" onchange="dither.setKernel()">
-            <input type="text" id="k6" onchange="dither.setKernel()">
-            <br>
-            <input type="text" id="k7" onchange="dither.setKernel()">
-            <input type="text" id="k8" onchange="dither.setKernel()">
-            <input type="text" id="k9" onchange="dither.setKernel()">
-        </div>
-        <!-- <div class="info">
+      <input type="range" id="color1" value="10" min="0" max="255" step="1" oninput="dither.setColor()">
+      <br>
+      <input type="range" id="color2" value="150" min="0" max="255" step="1" oninput="dither.setColor()">
+      <br>
+      <input type="range" id="factor" value="16" min="-5" max="16" step="0.5" oninput="dither.setFactor()">
+    </div>
+    <br>
+    <div class="kernels">
+      <select id="kernel" onchange="whichKernel()">
+        <option value="STEINBERG" selected>FLOYD-STEINBERG</option>
+        <option value="LINEARRANDOM">LINEARRANDOM</option>
+        <option value="FALSESTEINBERG">FALSESTEINBERG</option>
+        <option value="PARTIALBURKE">PARTIALBURKE</option>
+        <option value="INVERTEDSTEINBERG">INVERTEDSTEINBERG</option>
+        <option value="SLANTED">SLANTED</option>
+        <option value="COOL01">COOL01</option>
+        <option value="COOL02">COOL02</option>
+        <option value="COOL03">COOL03</option>
+        <option value="COOL04">COOL04</option>
+        <option value="COOL05">COOL05</option>
+        <option value="COOL02">COOL06</option>
+        <option value="CHRIS">CHRIS</option>
+        <option value="STRUCTURE">STRUCTURE</option>
+      </select>
+    </div>
+    <br>
+    <div class="ditinput">
+      <input type="text" id="k1" onchange="dither.setKernel()">
+      <input type="text" id="k2" onchange="dither.setKernel()">
+      <input type="text" id="k3" onchange="dither.setKernel()">
+      <br>
+      <input type="text" id="k4" onchange="dither.setKernel()">
+      <input type="text" id="k5" onchange="dither.setKernel()">
+      <input type="text" id="k6" onchange="dither.setKernel()">
+      <br>
+      <input type="text" id="k7" onchange="dither.setKernel()">
+      <input type="text" id="k8" onchange="dither.setKernel()">
+      <input type="text" id="k9" onchange="dither.setKernel()">
+    </div>
+    <!-- <div class="info">
             <button onclick="reveal()" class="infobtn">HOW?</button>
         </div> -->
-    </div>
-    <div id="myInfo" class="info-content">
-        <d>HI! YOU MIGHT WANT TO KNOW HOT TO OPERATE THIS WEBSITE?
+  </div>
+  <div id="myInfo" class="info-content">
+    <d>HI! YOU MIGHT WANT TO KNOW HOT TO OPERATE THIS WEBSITE?
+      <br>
+      <g>1. THE FIRST SLIDER DEFINES THE PIXEL SIZE.
+        <br>
+        <b>2. THE FOLLOWING TWO SLIDERS DEFINE THE UPPER AND LOWER COLOR OF THE IMAGE
+          <br>
+          <m>3. THE FOURTH SLIDER DEFINES THE DITHER FACTOR
             <br>
-            <g>1. THE FIRST SLIDER DEFINES THE PIXEL SIZE.
+            <c>5. FINALLY CHOOSE BETWEEN THE DIFFERENT DITHER ALGORITHMS IN THE DITHERS MENU
+              <br>
+              <w>6. MAKE YOUR OWN DITHER MATRIX, WITH THE INPUT BOXES BELOW.
                 <br>
-                <b>2. THE FOLLOWING TWO SLIDERS DEFINE THE UPPER AND LOWER COLOR OF THE IMAGE
-                    <br>
-                    <m>3. THE FOURTH SLIDER DEFINES THE DITHER FACTOR
-                        <br>
-                        <c>5. FINALLY CHOOSE BETWEEN THE DIFFERENT DITHER ALGORITHMS IN THE DITHERS MENU
-                            <br>
-                            <w>6. MAKE YOUR OWN DITHER MATRIX, WITH THE INPUT BOXES BELOW.
-                                <br>
-                                <y>LAST BUT NOT LEAST, THE SMALLER THE PIXELS ARE THE SLOWER THE SCRIPT RUNS. BE RESPECTFUL
-                                    AND SAVE YOURSELF AN IMAGE</y>
-                            </w>
-                        </c>
-                    </m>
-                </b>
-            </g>
-        </d>
-    </div>
-    </div>
+                <y>LAST BUT NOT LEAST, THE SMALLER THE PIXELS ARE THE SLOWER THE SCRIPT RUNS. BE RESPECTFUL
+                  AND SAVE YOURSELF AN IMAGE</y>
+              </w>
+            </c>
+          </m>
+        </b>
+      </g>
+    </d>
+  </div>
+  </div>
 
-    <div class="portfolio">
-        <a href="http://www.yannpatrickmartins.com/">WHO'S BEHIND IT</a>
-    </div>
+  <div class="portfolio">
+    <a href="http://www.yannpatrickmartins.com/">WHO'S BEHIND IT</a>
+  </div>
 </body>
 
 </html>

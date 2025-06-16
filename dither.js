@@ -7,8 +7,17 @@ class Dither {
 		this.radiant = false;
 		this.isShader = false;
 		this.factor = 16;
-		this.col1 = color(random(255), random(255), random(255));
-		this.col2 = color(random(255), random(255), random(255));
+		colorMode(HSB);
+		const c1 = round(random(255))
+		this.col1 = color(c1, 255, 255);
+		// set slider1
+		const slider1 = document.querySelector("#color1")
+		slider1.value = c1
+		const c2 = round(random(255))
+		this.col2 = color(c2, 255, 255);
+		const slider2 = document.querySelector("#color2")
+		slider2.value = c2
+		colorMode(RGB);
 		this.kernel = [[0.0, 0.0, 0.0], [0.0, 0.0, 7.0], [3.0, 5.0, 1.0]]; //STEINBERG
 		// this.srcImage = createImage(floor(this.w / this.PS), floor(this.h / this.PS));
 		this.initDither();
@@ -37,6 +46,20 @@ class Dither {
 	setColor() {
 		let c1 = floor(document.getElementById("color1").value);
 		let c2 = floor(document.getElementById("color2").value);
+		if (this.BW) {
+			this.col1 = color(c1) || color(255);
+			this.col2 = color(c2) || color(0);
+		} else {
+			colorMode(HSB);
+			this.col1 = color(c1, 255, 255) || color(0, 255, 0);
+			this.col2 = color(c2, 255, 255) || color(255, 255, 0);
+			colorMode(RGB);
+		}
+		this.generateDither();
+	}
+	setColorMouse(x, y) {
+		let c1 = map(x, 0, width, 255, 0);
+		let c2 = map(y, 0, height, 0, 255);
 		if (this.BW) {
 			this.col1 = color(c1) || color(255);
 			this.col2 = color(c2) || color(0);

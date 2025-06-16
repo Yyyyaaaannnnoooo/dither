@@ -31,3 +31,31 @@ window.onclick = function(event) {
     }
   }
 }
+
+let side_menu_open = true
+const pull = document.querySelector(".pull")
+const side_menu = document.querySelector(".side-menu");
+const close_arrow = "←";
+const open_arrow = "→";
+pull.addEventListener("click", () => {
+  console.log("click");
+  open_close_side_menu();
+});
+function open_close_side_menu() {
+let arrow = pull.querySelector("p");
+if (side_menu_open) {
+  // side_menu.style.width = "0px";
+  // side_menu.style.transform = "translate(-100%, 0%)";
+  side_menu.setAttribute("style", "-webkit-transform: translate(-100%, 0%);-moz-transform: translate(-100%, 0%);-ms-transform: translate(-100%, 0%);-o-transform: translate(-100%, 0%);transform: translate(-100%, 0%);");
+  // pull.style.left = "0px";
+  arrow.innerText = open_arrow;
+  side_menu_open = false;
+} else {
+  // side_menu.style.width = side_menu_w + "px";
+  // side_menu.style.transform = "translate(0%, 0%)";
+  side_menu.setAttribute("style", "-webkit-transform: translate(0%, 0%);-moz-transform: translate(0%, 0%);-ms-transform: translate(0%, 0%);-o-transform: translate(0%, 0%);transform: translate(0%, 0%);");
+  // pull.style.left = pull_pos_x + "px";
+  arrow.innerText = close_arrow;
+  side_menu_open = true;
+}
+}

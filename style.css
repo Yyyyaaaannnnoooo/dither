@@ -1,3 +1,9 @@
+:root {
+    --menu_w: calc(200px + 4rem);
+    --global-color: #ffffff;
+    --global-color-alpha4: #ffffffcc;
+    --global-color-alpha0: #ffffff00;
+  }
 body {
     margin: 0px;
     padding: 0px;
@@ -93,6 +99,52 @@ body {
     /*letter-spacing:5px;*/
 }
 
+.pull {
+    cursor: pointer;
+    position: fixed;
+    top: 50%;
+    left: var(--menu_w);
+    -webkit-transform: translate(0%, -50%);
+    -moz-transform: translate(0%, -50%);
+    -ms-transform: translate(0%, -50%);
+    -o-transform: translate(0%, -50%);
+    transform: translate(0%, -50%);
+    height: 100px;
+    width: 20px;
+    /* background-color: var(--global-color-alpha4); */
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    /* transition: left 0.5s ease-in-out; */
+    mix-blend-mode: difference;
+  }
+
+  .side-menu {
+    z-index: 999999999999;
+    position: fixed;
+    top: 0px;
+    /* height: 500px; */
+    height: calc(100vh - 90px);
+    /* height: 100svh; */
+    width: var(--menu_w);
+    padding-top: 96px;
+    margin: 0;
+    background-color: var(--global-color-alpha4);
+    -webkit-transform: translate(0%, 0%);
+    -moz-transform: translate(0%, 0%);
+    -ms-transform: translate(0%, 0%);
+    -o-transform: translate(0%, 0%);
+    transform: translate(0%, 0%);
+    -webkit-transition: -webkit-transform 0.5s ease-in-out;
+    -moz-transition: -moz-transform 0.5s ease-in-out;
+    -ms-transition: -ms-transform 0.5s ease-in-out;
+    -o-transition: -o-transform 0.5s ease-in-out;
+    transition: transform 0.5s ease-in-out;
+    mix-blend-mode: difference;
+  }
+
 /* Show the info menu (use JS to add this class to the .info-content container when the user clicks on the info button) */
 .reveal {display:block;}
 /*class kernel*/
@@ -174,8 +226,16 @@ input{
     height: 20px;
     background-color: #fff;
 }
+
+input [type=text]{
+    mix-blend-mode: unset;
+
+}
+
 .ditinput input{
-    width: 20px;
+    width: 40px;
+    height: 40px;
+    font-size: 30px;
 }
 /*styling buttons*/
 button{
