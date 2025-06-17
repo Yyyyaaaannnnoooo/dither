@@ -28,6 +28,7 @@ let pg;
 let dither;
 const cameras = []
 let cam;
+let start_cam = false
 
 initDitherKernels();
 
@@ -94,6 +95,8 @@ function setup() {
   if (is_mobile()) {
     BW()
   }
+
+  cam.lookAt(0, 0, 0)
 }
 //ADD IDLE MODE!
 function draw() {
@@ -126,17 +129,21 @@ function draw() {
   rotateX(PI)
   box(width * 0.75, height * 0.75, 1000)
   pop()
-  push()
-  translate(0, 0, 500)
-  rotateX(PI + (frameCount * 0.01))
-  rotateY((frameCount * 0.027))
-  if (is_mobile()) {
-    sphere(width * 0.125)
-  } else {
-    sphere(width * 0.05)
+  // push()
+  // translate(0, 0, 500)
+  // rotateX(PI + (frameCount * 0.01))
+  // rotateY((frameCount * 0.027))
+  // if (is_mobile()) {
+  //   sphere(width * 0.125 * 0.25)
+  // } else {
+  //   sphere(width * 0.05 * 0.25)
+  // }
+  // pop()
+
+  if (cam_vision().x > -10 && cam_vision().y > -10) {
+    start_cam = true
   }
-  pop()
-  cam.lookAt(cam_vision().x, cam_vision().y, 0)
+  if (start_cam) cam.lookAt(cam_vision().x, cam_vision().y, 0)
 }
 
 function mouseClicked() {
@@ -146,12 +153,22 @@ function mouseClicked() {
 
 }
 
+let easedX = 0;
+let easedY = 0;
+const easing = 0.1;
+
 function cam_vision() {
+  if(is_mobile()){return {x: 0, y: 0 }}
   const w = width / 2;
   const h = height / 2;
   const x = (mouseX - w) / 2
   const y = (mouseY - h) / 2
-  return { x, y }
+  // console.log(x, y);
+  // return { x, y }
+  easedX += (x - easedX) * easing;
+  easedY += (y - easedY) * easing;
+
+  return { x: easedX, y: easedY };
 }
 
 function setShader() {

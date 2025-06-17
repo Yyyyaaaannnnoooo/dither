@@ -1,7 +1,7 @@
 :root {
     --menu_w: calc(200px + 4rem);
     --global-color: #ffffff;
-    --global-color-alpha4: #ffffffcc;
+    --global-color-alpha4: #ffffff66;
     --global-color-alpha0: #ffffff00;
   }
 body {
@@ -118,7 +118,7 @@ body {
     align-items: center;
     justify-content: center;
     /* transition: left 0.5s ease-in-out; */
-    mix-blend-mode: difference;
+    /* mix-blend-mode: difference; */
   }
 
   .side-menu {
@@ -142,7 +142,7 @@ body {
     -ms-transition: -ms-transform 0.5s ease-in-out;
     -o-transition: -o-transform 0.5s ease-in-out;
     transition: transform 0.5s ease-in-out;
-    mix-blend-mode: difference;
+    /* mix-blend-mode: difference; */
   }
 
 /* Show the info menu (use JS to add this class to the .info-content container when the user clicks on the info button) */
@@ -228,7 +228,7 @@ input{
 }
 
 input [type=text]{
-    mix-blend-mode: unset;
+    /* mix-blend-mode: unset; */
 
 }
 
